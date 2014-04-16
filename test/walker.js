@@ -14,6 +14,7 @@ describe('Walker', function () {
 
     before(function (done) {
       rimraf(store, done);
+      Walker.clear();
     })
 
     it('should walk', co(function* () {
