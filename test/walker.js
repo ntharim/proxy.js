@@ -8,14 +8,16 @@ var Walker = require('..');
 
 var store = Walker.config.store;
 
+function clean(done) {
+  rimraf(store, done)
+  Walker.clear()
+}
+
 describe('Walker', function () {
   describe('component-test/index', function () {
-    var tree;
+    before(clean)
 
-    before(function (done) {
-      rimraf(store, done);
-      Walker.clear();
-    })
+    var tree;
 
     it('should walk', co(function* () {
       var walker = Walker();
@@ -25,7 +27,7 @@ describe('Walker', function () {
     }))
 
     it('should have downloaded the repository', co(function* () {
-      var folder = store + '/github.com/component-test/index/0.0.0/';
+      var folder = store + 'github.com/component-test/index/0.0.0/';
       assert(fs.existsSync(folder + 'index.js'))
       assert(fs.existsSync(folder + 'index.css'))
       assert(fs.existsSync(folder + 'something.css'))
@@ -57,5 +59,53 @@ describe('Walker', function () {
       file = file.dependencies['./something.css'].file;
       assert.equal(file.string.trim(), '* {\n  box-sizing: border-box;\n}');
     })
+  })
+
+  describe('component-test/deps-pinned', function () {
+    before(clean)
+
+    var tree
+    var files
+
+    it('should walk', co(function* () {
+      var walker = Walker();
+      walker.add('https://github.com/component-test/deps-pinned/0.0.0/index.js');
+      walker.add('https://github.com/component-test/deps-pinned/0.0.0/index.css');
+      tree = yield* walker.tree();
+    }))
+
+    it('should have downloaded component-test/index', co(function* () {
+      var folder = store + 'github.com/component-test/index/0.0.0/';
+      assert(fs.existsSync(folder + 'index.js'))
+      assert(fs.existsSync(folder + 'index.css'))
+      assert(fs.existsSync(folder + 'something.css'))
+      assert(fs.existsSync(folder + 'stuff.js'))
+    }))
+
+    it('should have downloaded component-test/deps-pinned', co(function* () {
+      var folder = store + 'github.com/component-test/deps-pinned/0.0.0/';
+      assert(fs.existsSync(folder + 'index.js'))
+      assert(fs.existsSync(folder + 'index.css'))
+    }))
+
+    it('should include all js files', function () {
+      files = Walker.flatten(tree).map(function (file) {
+        return file.uri
+      })
+
+      files.should.include(store + 'github.com/component-test/index/0.0.0/index.js')
+      files.should.include(store + 'github.com/component-test/index/0.0.0/stuff.js')
+      files.should.include(store + 'github.com/component-test/deps-pinned/0.0.0/index.js')
+    })
+
+    it('should include all css files', function () {
+      files.should.include(store + 'github.com/component-test/index/0.0.0/index.css')
+      files.should.include(store + 'github.com/component-test/index/0.0.0/something.css')
+      files.should.include(store + 'github.com/component-test/deps-pinned/0.0.0/index.css')
+    })
+  })
+
+  describe('component-test/deps-pinned', function () {
+
   })
 })
