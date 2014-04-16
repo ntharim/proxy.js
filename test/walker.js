@@ -105,7 +105,47 @@ describe('Walker', function () {
     })
   })
 
-  describe('component-test/deps-pinned', function () {
+  describe('component-test/deps-any', function () {
+    before(clean)
 
+    var tree
+    var files
+
+    it('should walk', co(function* () {
+      var walker = Walker();
+      walker.add('https://github.com/component-test/deps-any/0.0.0/index.js');
+      walker.add('https://github.com/component-test/deps-any/0.0.0/index.css');
+      tree = yield* walker.tree();
+    }))
+
+    it('should have downloaded component-test/index', co(function* () {
+      var folder = store + 'github.com/component-test/index/0.0.0/';
+      assert(fs.existsSync(folder + 'index.js'))
+      assert(fs.existsSync(folder + 'index.css'))
+      assert(fs.existsSync(folder + 'something.css'))
+      assert(fs.existsSync(folder + 'stuff.js'))
+    }))
+
+    it('should have downloaded component-test/deps-any', co(function* () {
+      var folder = store + 'github.com/component-test/deps-any/0.0.0/';
+      assert(fs.existsSync(folder + 'index.js'))
+      assert(fs.existsSync(folder + 'index.css'))
+    }))
+
+    it('should include all js files', function () {
+      files = Walker.flatten(tree).map(function (file) {
+        return file.uri
+      })
+
+      files.should.include(store + 'github.com/component-test/index/0.0.0/index.js')
+      files.should.include(store + 'github.com/component-test/index/0.0.0/stuff.js')
+      files.should.include(store + 'github.com/component-test/deps-any/0.0.0/index.js')
+    })
+
+    it('should include all css files', function () {
+      files.should.include(store + 'github.com/component-test/index/0.0.0/index.css')
+      files.should.include(store + 'github.com/component-test/index/0.0.0/something.css')
+      files.should.include(store + 'github.com/component-test/deps-any/0.0.0/index.css')
+    })
   })
 })
