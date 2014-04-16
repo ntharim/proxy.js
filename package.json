@@ -1,0 +1,31 @@
+{
+  "name": "normalize-proxy",
+  "description": "Install, normalize, then SPDY Push repositories",
+  "version": "0.0.0",
+  "author": {
+    "name": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "twitter": "https://twitter.com/jongleberry"
+  },
+  "license": "MIT",
+  "repository": "normalize/proxy.js",
+  "dependencies": {
+    "debug": "*",
+    "normalize-walker": "*",
+    "co": "^3",
+    "koa-compose": "^2.0.0",
+    "semver": "^2.2.1",
+    "github-versions": "github-utils/versions#1.0.0",
+    "github-download": "github-utils/download#1.0.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.2.0",
+    "mocha": "^1.17",
+    "should": "^3.0.0"
+  },
+  "scripts": {
+    "test": "mocha --harmony-generators --require should --timeout 30s --reporter spec --bail test/remotes.js test/walker.js"
+  },
+  "main": "lib"
+}
