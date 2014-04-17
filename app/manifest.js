@@ -11,7 +11,7 @@ var calculate = utils.shasum
 var localPath = utils.localPath
 var remotePath = utils.remotePath
 
-var match = route('/:user([\\w-]+)/:project([\\w-.]+)/:version?/manifest.json')
+var match = route('/:user([\\w-]+)/:project([\\w-.]+)/:version/manifest.json')
 
 module.exports = function* (next) {
   var params = match(this.request.path)

@@ -9,7 +9,7 @@ var serialize = require('../lib/serialize')
 
 var remotePath = utils.remotePath
 
-var matchEntryPoint = route('/:user([\\w-]+)/:project([\\w-.]+)/:version?/:file(index.js|index.css|index.html)?')
+var matchEntryPoint = route('/:user([\\w-]+)/:project([\\w-.]+)/:version/:file(index.js|index.css|index.html)?')
 var matchAnyFile = route('/:user([\\w-]+)/:project([\\w-.]+)/:version/:file*')
 
 module.exports = function* (next) {
