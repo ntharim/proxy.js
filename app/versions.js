@@ -1,6 +1,7 @@
 
-var utils = require('../utils')
 var route = require('path-match')()
+
+var utils = require('../utils')
 var remotes = require('../lib/remotes')
 var versions = require('../lib/versions')
 
@@ -19,7 +20,7 @@ module.exports = function* (next) {
   var params = match(this.request.path)
   if (!params) return yield* next
 
-  var remote = remotes(this.req.hostname)
+  var remote = remotes(this.request.hostname)
   if (!remote) this.throw(404, 'Unknown hostname.')
   var user = params.user.toLowerCase()
   var project = params.project.toLowerCase()

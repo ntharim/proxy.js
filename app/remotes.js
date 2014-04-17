@@ -29,6 +29,6 @@ module.exports = function* (next) {
   this.response.etag = hash
   this.response.lastModified = mtime
   this.response.set('Cache-Control', cacheControl)
-  if (this.request.fresh) this.response.status = 304
   this.response.body = json
+  if (this.request.fresh) this.response.status = 304
 }
