@@ -10,7 +10,7 @@ var store = Walker.config.store;
 
 function clean(done) {
   rimraf(store, done)
-  Walker.clear()
+  Walker.cache.reset()
 }
 
 describe('Walker', function () {

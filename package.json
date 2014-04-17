@@ -11,11 +11,12 @@
   "license": "MIT",
   "repository": "normalize/proxy.js",
   "dependencies": {
-    "debug": "*",
-    "normalize-walker": "*",
     "co": "^3",
-    "koa-compose": "^2.0.0",
+    "debug": "*",
     "semver": "^2.2.1",
+    "lru-cache": "^2.5.0",
+    "koa-compose": "^2.0.0",
+    "normalize-walker": "*",
     "github-versions": "github-utils/versions#1.0.0",
     "github-download": "github-utils/download#1.0.0"
   },
