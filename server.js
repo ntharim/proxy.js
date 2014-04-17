@@ -1,7 +1,7 @@
 
 var spdy = require('spdy')
 
-var app = require('../app')
+var app = require('./app')
 
 var options = {
   key: fs.readFileSync(__dirname + '/keys/spdy-key.pem'),

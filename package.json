@@ -12,7 +12,6 @@
   "repository": "normalize/proxy.js",
   "dependencies": {
     "co": "^3",
-    "spdy": "^1.25.1",
     "debug": "*",
     "semver": "^2.2.1",
     "lru-cache": "^2.5.0",
@@ -27,6 +26,7 @@
     "path-match": "^1.0.0"
   },
   "devDependencies": {
+    "spdy": "^1.25.1",
     "koa-logger": "^1.2.0",
     "rimraf": "^2.2.0",
     "mocha": "^1.17",
