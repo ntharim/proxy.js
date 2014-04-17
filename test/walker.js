@@ -4,7 +4,7 @@ var rimraf = require('rimraf');
 var co = require('co');
 var fs = require('fs');
 
-var Walker = require('..');
+var Walker = require('../lib');
 
 var store = Walker.config.store;
 

@@ -12,21 +12,29 @@
   "repository": "normalize/proxy.js",
   "dependencies": {
     "co": "^3",
+    "spdy": "^1.25.1",
     "debug": "*",
     "semver": "^2.2.1",
     "lru-cache": "^2.5.0",
-    "koa-compose": "^2.0.0",
     "normalize-walker": "*",
     "github-versions": "github-utils/versions#1.0.0",
-    "github-download": "github-utils/download#1.0.0"
+    "github-download": "github-utils/download#1.0.0",
+    "koa": "0",
+    "koa-cdn": "^1.0.0",
+    "koa-favicon": "^1.0.0",
+    "koa-compose": "^2.0.0",
+    "koa-compress": "^1.0.4",
+    "path-match": "^1.0.0"
   },
   "devDependencies": {
+    "koa-logger": "^1.2.0",
     "rimraf": "^2.2.0",
     "mocha": "^1.17",
-    "should": "^3.0.0"
+    "should": "^3.0.0",
+    "jshint": "^2.5.0"
   },
   "scripts": {
-    "test": "mocha --harmony-generators --require should --timeout 30s --reporter spec --bail test/remotes.js test/walker.js"
+    "test": "make test"
   },
-  "main": "lib"
+  "main": "app"
 }
