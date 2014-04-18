@@ -5,6 +5,7 @@
 
 var spdy = require('spdy')
 var keys = require('spdy-keys')
+keys.rejectUnauthorized = false
 
 var app = require('.')
 

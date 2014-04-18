@@ -8,7 +8,8 @@ test:
 		--timeout 30s \
 		--bail \
 		test/remotes.js \
-		test/walker.js
+		test/walker.js \
+		test/app.js
 
 lint:
 	@$(BIN)jshint lib app

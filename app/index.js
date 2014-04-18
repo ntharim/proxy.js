@@ -5,10 +5,12 @@ var app = module.exports = koa()
 
 app.use(require('koa-cdn'))
 app.use(require('koa-favicon')())
-if (app.env !== 'production') app.use(require('koa-logger')())
+if (app.env !== 'production' && app.env !== 'test')
+  app.use(require('koa-logger')())
 app.use(require('koa-compress')())
 
-if (app.env !== 'production') app.use(require('./debug'))
+if (app.env !== 'production')
+  app.use(require('./debug'))
 
 app.use(require('./home'))
 app.use(require('./remotes'))
