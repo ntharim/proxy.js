@@ -27,7 +27,7 @@ module.exports = function* (next) {
   var path = localPath(remote, user, project, '', '')
   var body = yield* versions(path)
   this.response.body = body
-  this.response.etag = calculate(body)
+  this.response.etag = calculate(JSON.stringify(body))
   this.response.set('Cache-Control', cacheControl)
   if (this.request.fresh) this.response.status = 304
 }

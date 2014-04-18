@@ -3,6 +3,8 @@ var koa = require('koa')
 
 var app = module.exports = koa()
 
+// app.outputErrors = true
+
 app.use(require('koa-cdn'))
 app.use(require('koa-favicon')())
 if (app.env !== 'production' && app.env !== 'test')
