@@ -8,7 +8,7 @@
     "url": "http://jongleberry.com",
     "twitter": "https://twitter.com/jongleberry"
   },
-  "license": "MIT",
+  "license": "GPL",
   "repository": "normalize/proxy.js",
   "dependencies": {
     "co": "^3",
