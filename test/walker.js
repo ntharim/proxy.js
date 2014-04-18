@@ -147,5 +147,17 @@ describe('Walker', function () {
       files.should.include(store + 'github.com/component-test/index/0.0.0/something.css')
       files.should.include(store + 'github.com/component-test/deps-any/0.0.0/index.css')
     })
+
+    it('should serialize files', function () {
+      var files = Walker.serialize(tree)
+      var file = files.slice(-1)[0]
+      file.uri.should.equal('https://github.normalize.us/component-test/deps-any/0.0.0/index.css')
+      file.source.should.equal('https://github.normalize.us/component-test/deps-any/0.0.0/index.css')
+      file.hash.should.be.ok
+      file.mtime.should.be.ok
+      file.dependencies.should.eql([
+        'https://github.normalize.us/component-test/index/0.0.0/index.css'
+      ])
+    })
   })
 })

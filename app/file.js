@@ -5,7 +5,6 @@ var route = require('path-match')()
 var Walker = require('../lib')
 var utils = require('../utils')
 var remotes = require('../lib/remotes')
-var serialize = require('../lib/serialize')
 
 var remotePath = utils.remotePath
 

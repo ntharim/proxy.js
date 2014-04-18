@@ -37,7 +37,7 @@ module.exports = function* (next) {
     walker.add(uri + file)
   })
   var tree = yield* walker.tree()
-  var files = manifest.files = serialize(tree)
+  manifest.files = serialize(tree)
 
   var string = JSON.stringify(manifest, null, 2)
   this.response.etag = calculate(string)
