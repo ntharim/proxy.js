@@ -4,8 +4,8 @@ var route = require('path-match')()
 var flatten = require('normalize-walker').flatten
 
 var Walker = require('../lib')
-var utils = require('../utils')
 var push = require('../lib/push')
+var utils = require('../lib/utils')
 var remotes = require('../lib/remotes')
 
 var remotePath = utils.remotePath

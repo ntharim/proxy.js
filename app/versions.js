@@ -1,7 +1,7 @@
 
 var route = require('path-match')()
 
-var utils = require('../utils')
+var utils = require('../lib/utils')
 var remotes = require('../lib/remotes')
 var versions = require('../lib/versions')
 

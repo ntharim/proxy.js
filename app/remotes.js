@@ -1,5 +1,5 @@
 
-var calculate = require('../utils').shasum
+var calculate = require('../lib/utils').shasum
 var remotes = require('../lib/remotes')
 
 var json = {

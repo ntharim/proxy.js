@@ -28,14 +28,20 @@
   },
   "devDependencies": {
     "spdy": "^1.25.1",
+    "spdy-keys": "*",
+    "nodemon": "^1.0.17",
     "koa-logger": "^1.2.0",
     "rimraf": "^2.2.0",
     "mocha": "^1.17",
     "should": "^3.0.0",
     "jshint": "^2.5.0"
   },
+  "main": "app",
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "start": "nodemon --harmony-generators --watch lib/ --watch app/ app/server.js"
   },
-  "main": "app"
+  "engines": {
+    "node": ">= 0.11"
+  }
 }
