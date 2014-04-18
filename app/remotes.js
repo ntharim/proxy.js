@@ -4,7 +4,8 @@ var remotes = require('../lib/remotes')
 
 var json = {
   hostname: require('../config').hostname,
-  remotes: Object.keys(remotes).map(function (remote) {
+  remotes: Object.keys(remotes).map(function (name) {
+    var remote = remotes[name]
     return {
       name: remote.name,
       hostname: remote.hostname,

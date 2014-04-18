@@ -1,5 +1,6 @@
 
 var co = require('co')
+var get = require('raw-body')
 
 var request = require('./request')
 var server = require('../app/server')
@@ -15,7 +16,12 @@ before(function (done) {
 describe('GET /remotes', function () {
   it('should support github', co(function* () {
     var res = yield* request('/remotes.json')
-    console.log(res)
+    var body = JSON.parse(yield get(res, true))
+    body.hostname.should.equal('normalize.us')
+    var github = body.remotes[0]
+    github.name.should.equal('github')
+    github.hostname.should.equal('github.normalize.us')
+    github.aliases.should.include('raw.github.com')
   }))
 })
 

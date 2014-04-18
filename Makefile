@@ -1,7 +1,7 @@
 BIN = ./node_modules/.bin/
 
 test:
-	@$(BIN)mocha \
+	@NODE_ENV=test $(BIN)mocha \
 		--harmony-generators \
 		--require should \
 		--reporter spec \
