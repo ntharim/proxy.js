@@ -1,8 +1,10 @@
 
 var route = require('path-match')()
+var flatten = require('normalize-walker').flatten
 
 var Walker = require('../lib')
 var utils = require('../utils')
+var push = require('../lib/push')
 var resolve = require('../lib/resolve')
 var remotes = require('../lib/remotes')
 var serialize = require('../lib/serialize')
@@ -43,7 +45,9 @@ module.exports = function* (next) {
   this.response.etag = calculate(string)
   this.response.type = 'json'
   this.response.body = string
-  if (this.request.fresh) this.response.status = 304
+  if (this.request.fresh) return this.response.status = 304
 
   // spdy push all the shit
+  if (!this.res.isSpdy) return
+  flatten(tree).forEach(push, this)
 }

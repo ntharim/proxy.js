@@ -1,9 +1,11 @@
 
 var fs = require('fs')
 var route = require('path-match')()
+var flatten = require('normalize-walker').flatten
 
 var Walker = require('../lib')
 var utils = require('../utils')
+var push = require('../lib/push')
 var remotes = require('../lib/remotes')
 
 var remotePath = utils.remotePath
@@ -32,7 +34,7 @@ module.exports = function* (next) {
 
   this.response.etag = file.hash
   this.response.lastModified = file.mtime
-  if (this.request.fresh) this.response.status = 304
+  if (this.request.fresh) return this.response.status = 304
 
   this.response.type = file.type
   if (file.string) {
@@ -44,4 +46,8 @@ module.exports = function* (next) {
   }
 
   // spdy push all the shit
+  if (!this.res.isSpdy) return
+  flatten(tree).filter(function (x) {
+    return file !== x
+  }).forEach(push, this)
 }
