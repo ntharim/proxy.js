@@ -5,7 +5,8 @@ var cacheControl = require('../config').cacheControl.remotes
 
 var json = {
   hostname: require('../config').hostname,
-  remotes: Object.keys(remotes).map(function (name) {
+  aliases: remotes.aliases,
+  remotes: remotes.names.map(function (name) {
     var remote = remotes[name]
     return {
       name: remote.name,

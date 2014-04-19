@@ -15,12 +15,12 @@ exports.cache = {
 }
 
 exports.cacheControl = {
-  remotes: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_REMOTES, 10)
-    || 1000 * 60 * 60, // 1 hour
-  versions: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_VERSIONS, 10)
-    || 1000 * 60 * 60, // 1 hour
-  semver: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_SEMVER, 10)
-    || 1000 * 60 * 60 * 24 * 7, // 1 week
-  file: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_FILE, 10)
-    || 1000 * 60 * 60 * 24 * 365, // 1 year
+  remotes: 'public, max-age=' + (parseInt(process.env.NORMALIZE_MAXAGE_REMOTES, 10)
+    || 60 * 60), // 1 hour
+  versions: 'public, max-age=' + (parseInt(process.env.NORMALIZE_MAXAGE_VERSIONS, 10)
+    || 60 * 60), // 1 hour
+  semver: 'public, max-age=' + (parseInt(process.env.NORMALIZE_MAXAGE_SEMVER, 10)
+    || 60 * 60 * 24 * 7), // 1 week
+  file: 'public, max-age=' + (parseInt(process.env.NORMALIZE_MAXAGE_FILE, 10)
+    || 60 * 60 * 24 * 365), // 1 year
 }

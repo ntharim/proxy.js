@@ -21,31 +21,31 @@ describe('GET /remotes', function () {
     body.hostname.should.equal('normalize.us')
     var github = body.remotes[0]
     github.name.should.equal('github')
-    github.hostname.should.equal('github.normalize.us')
+    github.hostname.should.equal('github.com')
     github.aliases.should.include('raw.github.com')
     res.agent.close()
   }))
 })
 
-describe('GET /:user/:project/versions.json', function () {
+describe('GET /:remote/:user/:project/versions.json', function () {
   it('should 404 when there are no versions installed', co(function* () {
-    var res = yield* request('/asdfasdf/asdfasdf/versions.json')
+    var res = yield* request('/github/asdfasdf/asdfasdf/versions.json')
     res.statusCode.should.equal(404)
     var body = JSON.parse(yield get(res, true))
     body.should.eql([])
     res.agent.close()
   }))
 
-  it('should GET component-test/deps-any', co(function* () {
-    var res = yield* request('/component-test/deps-any/versions.json')
+  it('should GET github/component-test/deps-any', co(function* () {
+    var res = yield* request('/github/component-test/deps-any/versions.json')
     res.statusCode.should.equal(200)
     var body = JSON.parse(yield get(res, true))
     body.should.include('0.0.0')
     res.agent.close()
   }))
 
-  it('should GET component-test/index', co(function* () {
-    var res = yield* request('/component-test/index/versions.json')
+  it('should GET github/component-test/index', co(function* () {
+    var res = yield* request('/github/component-test/index/versions.json')
     res.statusCode.should.equal(200)
     var body = JSON.parse(yield get(res, true))
     body.should.include('0.0.0')
@@ -53,9 +53,9 @@ describe('GET /:user/:project/versions.json', function () {
   }))
 })
 
-describe('GET /:user/:project/:version/manifest.json', function () {
-  it('should GET component-test/deps-any', co(function* () {
-    var res = yield* request('/component-test/deps-any/0.0.0/manifest.json')
+describe('GET /:remote/:user/:project/:version/manifest.json', function () {
+  it('should GET github/component-test/deps-any', co(function* () {
+    var res = yield* request('/github/component-test/deps-any/0.0.0/manifest.json')
     res.statusCode.should.equal(200)
     var manifest = JSON.parse(yield get(res, true))
     manifest.version.should.equal('0.0.0')
@@ -69,14 +69,14 @@ describe('GET /:user/:project/:version/manifest.json', function () {
   }))
 })
 
-describe('GET /:user/:project/:semver/manifest', function () {
+describe('GET /:remote/:user/:project/:semver/manifest', function () {
 
 })
 
-describe('GET /:user/:project/:version/:file', function () {
+describe('GET /:remote/:user/:project/:version/:file', function () {
 
 })
 
-describe('GET /:user/:project/:semver/:file', function () {
+describe('GET /:remote/:user/:project/:semver/:file', function () {
 
 })

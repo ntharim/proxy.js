@@ -4,7 +4,7 @@ var spdy = require('spdy')
 
 module.exports = request
 
-function* request(path, host) {
+function* request(path) {
   var agent = spdy.createAgent({
     host: '127.0.0.1',
     port: request.port,
@@ -20,7 +20,6 @@ function* request(path, host) {
     headers: {
       // too lazy to decompress in testing
       'accept-encoding': 'identity',
-      'host': host || 'normalize.us',
     }
   })
 
