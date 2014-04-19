@@ -224,3 +224,12 @@ describe('GET /:remote/:user/:project/:semver/:file', function () {
     urls.should.include('/github/component-test/index/0.0.0/stuff.js')
   }))
 })
+
+describe('GET nonexistent file', function () {
+  it('should 404', co(function* () {
+    res = yield* request('/github/component-test/deps-any/0.0.0/kljljasdfsdafsdf.js')
+    res.statusCode.should.equal(404)
+    res.destroy()
+    res.agent.close()
+  }))
+})
