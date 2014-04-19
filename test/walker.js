@@ -14,6 +14,29 @@ function clean(done) {
 }
 
 describe('Walker', function () {
+  describe('component-test/remotes', function () {
+    before(clean)
+
+    var tree
+    var filename
+
+    it('should walk', co(function* () {
+      var walker = Walker()
+      walker.add('https://github.com/component-test/remotes/0.0.0/index.js')
+      tree = yield* walker.tree()
+    }))
+
+    it('should have downloaded the repository', co(function* () {
+      filename = store + 'github/component-test/remotes/0.0.0/index.js'
+      assert(fs.existsSync(filename))
+    }))
+
+    it('should not have rewritten anything', co(function* () {
+      var file = tree['https://github.com/component-test/remotes/0.0.0/index.js'].file
+      file.string.should.equal(fs.readFileSync(filename, 'utf8'))
+    }))
+  })
+  
   describe('component-test/index', function () {
     before(clean)
 
