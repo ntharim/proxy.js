@@ -26,4 +26,5 @@ module.exports = function* (next) {
   this.response.etag = calculate(JSON.stringify(body))
   this.response.set('Cache-Control', cacheControl)
   if (this.request.fresh) this.response.status = 304
+  else if (!body.length) this.response.status = 404
 }

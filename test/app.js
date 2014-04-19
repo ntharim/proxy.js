@@ -28,6 +28,14 @@ describe('GET /remotes', function () {
 })
 
 describe('GET /:user/:project/versions.json', function () {
+  it('should 404 when there are no versions installed', co(function* () {
+    var res = yield* request('/asdfasdf/asdfasdf/versions.json')
+    res.statusCode.should.equal(404)
+    var body = JSON.parse(yield get(res, true))
+    body.should.eql([])
+    res.agent.close()
+  }))
+
   it('should GET component-test/deps-any', co(function* () {
     var res = yield* request('/component-test/deps-any/versions.json')
     res.statusCode.should.equal(200)
@@ -45,7 +53,23 @@ describe('GET /:user/:project/versions.json', function () {
   }))
 })
 
-describe('GET /:user/:project/:version/manifest', function () {
+describe('GET /:user/:project/:version/manifest.json', function () {
+  it('should GET component-test/deps-any', co(function* () {
+    var res = yield* request('/component-test/deps-any/0.0.0/manifest.json')
+    res.statusCode.should.equal(200)
+    var manifest = JSON.parse(yield get(res, true))
+    manifest.version.should.equal('0.0.0')
+    manifest.main.should.include('index.js')
+    manifest.main.should.include('index.css')
+    manifest.files.length.should.be.ok
+
+    res.agent.on('push', function (stream) {
+      console.log(stream)
+    })
+  }))
+})
+
+describe('GET /:user/:project/:semver/manifest', function () {
 
 })
 

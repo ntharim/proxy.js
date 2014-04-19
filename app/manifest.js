@@ -36,7 +36,7 @@ module.exports = function* (next) {
 
   var walker = Walker()
   main.forEach(function (file) {
-    walker.add(uri + file)
+    walker.add(uri + '/' + file)
   })
   var tree = yield* walker.tree()
   manifest.files = serialize(tree)
