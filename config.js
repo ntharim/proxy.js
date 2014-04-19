@@ -5,7 +5,7 @@ exports.store = process.env.NORMALIZE_STORE
 // note: you NEED to have this set as well as have
 // your /etc/hosts file setup for this to work.
 exports.hostname = process.env.NORMALIZE_HOSTNAME
-  || 'normalize.us';
+  || 'nrm.link';
 
 exports.cache = {
   maxAge: parseInt(process.env.NORMALIZE_CACHE_MAXAGE, 10)

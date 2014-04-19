@@ -37,11 +37,11 @@ describe('Walker', function () {
     it('should have rewritten the JS dependencies', co(function* () {
       var index = tree['https://github.com/component-test/index/0.0.0/index.js']
       index.uri.should.equal(store + 'github/component-test/index/0.0.0/index.js')
-      index.remoteURI.should.equal('https://normalize.us/github/component-test/index/0.0.0/index.js')
+      index.remoteURI.should.equal('https://nrm.link/github/component-test/index/0.0.0/index.js')
 
       var file = index.file
       file.string.should.not.include('module stuff from "./stuff.js"')
-      file.string.should.include('module stuff from "https://normalize.us/github/component-test/index/0.0.0/stuff.js"')
+      file.string.should.include('module stuff from "https://nrm.link/github/component-test/index/0.0.0/stuff.js"')
 
       file = file.dependencies['./stuff.js'].file
       assert.equal(file.string.trim(), 'export default \'hi\';')
@@ -50,11 +50,11 @@ describe('Walker', function () {
     it('should have rewritten the CSS dependencies', function () {
       var index = tree['https://github.com/component-test/index/0.0.0/index.css']
       index.uri.should.equal(store + 'github/component-test/index/0.0.0/index.css')
-      index.remoteURI.should.equal('https://normalize.us/github/component-test/index/0.0.0/index.css')
+      index.remoteURI.should.equal('https://nrm.link/github/component-test/index/0.0.0/index.css')
 
       var file = index.file
       file.string.should.not.include('@import "./something.css"')
-      file.string.should.include('@import "https://normalize.us/github/component-test/index/0.0.0/something.css"')
+      file.string.should.include('@import "https://nrm.link/github/component-test/index/0.0.0/something.css"')
 
       file = file.dependencies['./something.css'].file
       assert.equal(file.string.trim(), '* {\n  box-sizing: border-box;\n}')
@@ -151,12 +151,12 @@ describe('Walker', function () {
     it('should serialize files', function () {
       var files = serialize(tree)
       var file = files.slice(-1)[0]
-      file.uri.should.equal('https://normalize.us/github/component-test/deps-any/0.0.0/index.css')
-      file.source.should.equal('https://normalize.us/github/component-test/deps-any/0.0.0/index.css')
+      file.uri.should.equal('https://nrm.link/github/component-test/deps-any/0.0.0/index.css')
+      file.source.should.equal('https://nrm.link/github/component-test/deps-any/0.0.0/index.css')
       file.hash.should.be.ok
       file.mtime.should.be.ok
       file.dependencies.should.eql([
-        'https://normalize.us/github/component-test/index/0.0.0/index.css'
+        'https://nrm.link/github/component-test/index/0.0.0/index.css'
       ])
     })
   })
