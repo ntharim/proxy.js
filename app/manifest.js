@@ -8,6 +8,7 @@ var utils = require('../lib/utils')
 var resolve = require('../lib/resolve')
 var remotes = require('../lib/remotes')
 var serialize = require('../lib/serialize')
+var cacheControl = require('../config').cacheControl.file
 
 var calculate = utils.shasum
 var localPath = utils.localPath
@@ -45,6 +46,7 @@ module.exports = function* (next) {
   this.response.etag = calculate(string)
   this.response.type = 'json'
   this.response.body = string
+  this.response.set('Cache-Control', cacheControl)
   if (this.request.fresh) return this.response.status = 304
 
   // spdy push all the shit

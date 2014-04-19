@@ -4,9 +4,7 @@ var route = require('path-match')()
 var utils = require('../lib/utils')
 var remotes = require('../lib/remotes')
 var versions = require('../lib/versions')
-
-var cacheControl = 'public, max-age='
-  + require('../config').maxAge.versions
+var cacheControl = require('../config').cacheControl.versions
 
 var calculate = utils.shasum
 var localPath = utils.localPath

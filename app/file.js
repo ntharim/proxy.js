@@ -4,20 +4,15 @@ var route = require('path-match')()
 var flatten = require('normalize-walker').flatten
 
 var Walker = require('../lib')
-var config = require('../config')
 var push = require('../lib/push')
 var utils = require('../lib/utils')
 var remotes = require('../lib/remotes')
+var cacheControl = require('../config').cacheControl
 
 var remotePath = utils.remotePath
 
 var matchEntryPoint = route('/:user([\\w-]+)/:project([\\w-.]+)/:version/:file(index.js|index.css|index.html)?')
 var matchAnyFile = route('/:user([\\w-]+)/:project([\\w-.]+)/:version/:file*')
-
-var cacheControl = {
-  semver: 'public, max-age=' + config.maxAge.semver,
-  file: 'public, max-age=' + config.maxAge.file,
-}
 
 module.exports = function* (next) {
   var path = this.request.path

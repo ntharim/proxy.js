@@ -1,6 +1,7 @@
 
-var calculate = require('../lib/utils').shasum
 var remotes = require('../lib/remotes')
+var calculate = require('../lib/utils').shasum
+var cacheControl = require('../config').cacheControl.remotes
 
 var json = {
   hostname: require('../config').hostname,
@@ -16,8 +17,6 @@ var json = {
 
 var hash = calculate(JSON.stringify(json, null, 2))
 var mtime = new Date()
-var cacheControl = 'public, max-age='
-  + require('../config').maxAge.remotes
 
 /**
  * Return a seriealized list of `remotes` to clients.

@@ -14,13 +14,13 @@ exports.cache = {
     || 1024 * 1024 * 64, // 64mb
 }
 
-exports.maxAge = {
-  remotes: parseInt(process.env.NORMALIZE_MAXAGE_REMOTES, 10)
+exports.cacheControl = {
+  remotes: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_REMOTES, 10)
     || 1000 * 60 * 60, // 1 hour
-  versions: parseInt(process.env.NORMALIZE_MAXAGE_VERSIONS, 10)
+  versions: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_VERSIONS, 10)
     || 1000 * 60 * 60, // 1 hour
-  semver: parseInt(process.env.NORMALIZE_MAXAGE_SEMVER, 10)
+  semver: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_SEMVER, 10)
     || 1000 * 60 * 60 * 24 * 7, // 1 week
-  file: parseInt(process.env.NORMALIZE_MAXAGE_FILE, 10)
+  file: 'public, max-age=' + parseInt(process.env.NORMALIZE_MAXAGE_FILE, 10)
     || 1000 * 60 * 60 * 24 * 365, // 1 year
 }

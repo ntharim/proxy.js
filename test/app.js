@@ -49,10 +49,10 @@ describe('GET /:user/:project/:version/manifest', function () {
 
 })
 
-describe('GET /:user/:project/:version/:entrypoint', function () {
+describe('GET /:user/:project/:version/:file', function () {
 
 })
 
-describe('GET /:user/:project/:version/:file', function () {
+describe('GET /:user/:project/:semver/:file', function () {
 
 })
