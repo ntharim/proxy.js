@@ -6,9 +6,8 @@ var Walker = require('../lib')
 var push = require('../lib/push')
 var utils = require('../lib/utils')
 var resolve = require('../lib/resolve')
-var remotes = require('../lib/remotes')
 var serialize = require('../lib/serialize')
-var cacheControl = require('../config').cacheControl.file
+var cacheControl = require('../config').cacheControl
 
 var calculate = utils.shasum
 var localPath = utils.localPath
@@ -20,17 +19,17 @@ module.exports = function* (next) {
   var params = match(this.request.path)
   if (!params) return yield* next
 
-  var remote = remotes(this.request.hostname)
-  if (!remote) this.throw(404, 'Unknown hostname.')
+  var remote = this.remote
   var user = params.user.toLowerCase()
   var project = params.project.toLowerCase()
-  var version = params.version.toLowerCase() || '*'
-  var uri = remotePath(remote, user, project, version)
+  var range = params.version.toLowerCase() || '*'
+  var uri = remotePath(remote, user, project, range)
   var res = yield* resolve(uri)
-  version = res[3]
+  var version = res[3]
   var main = yield* utils.entrypoints(localPath(remote, user, project, version))
   var manifest = {
     repository: 'https://' + remote.domain + '/' + user + '/' + project,
+    version: version,
     main: main,
   }
   uri = remotePath(remote, user, project, version)
@@ -46,10 +45,12 @@ module.exports = function* (next) {
   this.response.etag = calculate(string)
   this.response.type = 'json'
   this.response.body = string
-  this.response.set('Cache-Control', cacheControl)
+  this.response.set('Cache-Control', version === range
+    ? cacheControl.file
+    : cacheControl.semver)
   if (this.request.fresh) return this.response.status = 304
 
   // spdy push all the shit
-  if (!this.res.isSpdy) return
+  if (!this.spdy) return
   flatten(tree).forEach(push, this)
 }

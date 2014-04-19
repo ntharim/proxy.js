@@ -6,7 +6,6 @@ var flatten = require('normalize-walker').flatten
 var Walker = require('../lib')
 var push = require('../lib/push')
 var utils = require('../lib/utils')
-var remotes = require('../lib/remotes')
 var cacheControl = require('../config').cacheControl
 
 var remotePath = utils.remotePath
@@ -20,8 +19,7 @@ module.exports = function* (next) {
     || matchAnyFile(path)
   if (!params) return yield* next
 
-  var remote = remotes(this.request.hostname)
-  if (!remote) this.throw(404, 'Unknown hostname.')
+  var remote = this.remote
   var user = params.user.toLowerCase()
   var project = params.project.toLowerCase()
   var version = params.version.toLowerCase() || '*'
@@ -33,14 +31,12 @@ module.exports = function* (next) {
   var tree = yield* walker.tree()
   var file = tree[uri].file
   uri = utils.localToRemotePath(file.uri)
-  var currentURI = 'https://' + this.request.host + this.request.path
 
-  var spdy = this.res.isSpdy && this.request.method === 'GET'
-  if (uri !== currentURI) {
+  if (uri !== this.uri) {
     this.response.redirect(uri)
     this.response.set('Cache-Control', cacheControl.semver)
     // push this file with highest priority
-    if (spdy) push.call(this, file, 0)
+    if (this.spdy) push.call(this, file, 0)
   } else {
     this.response.etag = file.hash
     this.response.lastModified = file.mtime
@@ -56,7 +52,7 @@ module.exports = function* (next) {
   }
 
   // spdy push all the shit
-  if (!spdy) return
+  if (!this.spdy) return
   flatten(tree).filter(function (x) {
     return file !== x
   }).forEach(push, this)
