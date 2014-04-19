@@ -22,9 +22,10 @@ module.exports = function* (next) {
   var tree = yield* this.walker().add(uri).tree()
   var file = tree[uri].file
   uri = this.uri.localToRemote(file.uri)
+  var uripath = url.parse(uri).pathname
 
-  if (url.parse(uri).pathname !== path) {
-    this.response.redirect(uri)
+  if (uripath !== path) {
+    this.response.redirect(uripath)
     this.response.set('Cache-Control', cacheControl.semver)
     // push this file with highest priority
     if (this.spdy) this.push.call(this, file, 0)

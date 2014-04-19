@@ -29,7 +29,7 @@
   "devDependencies": {
     "spdy": "^1.25.1",
     "spdy-keys": "*",
-    "raw-body": "^1.0.0",
+    "raw-body": "^1.1.4",
     "nodemon": "^1.0.17",
     "koa-logger": "^1.2.0",
     "rimraf": "^2.2.0",

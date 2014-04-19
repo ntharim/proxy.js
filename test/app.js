@@ -95,9 +95,7 @@ describe('GET /:remote/:user/:project/:version/manifest.json', function () {
     var stream = res.streams.filter(function (stream) {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
-    var text = yield get(stream, {
-      encoding: true
-    })
+    var text = yield get(stream, true)
     text.trim().should.include('export * from "https://normalize.us/github/component-test/index/*/index.js";')
     text.trim().should.include('require("https://normalize.us/github/component-test/index/*/index.js")')
   }))
@@ -145,18 +143,84 @@ describe('GET /:remote/:user/:project/:semver/manifest.json', function () {
     var stream = res.streams.filter(function (stream) {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
-    var text = yield get(stream, {
-      encoding: true
-    })
+    var text = yield get(stream, true)
     text.trim().should.include('export * from "https://normalize.us/github/component-test/index/*/index.js";')
     text.trim().should.include('require("https://normalize.us/github/component-test/index/*/index.js")')
   }))
 })
 
 describe('GET /:remote/:user/:project/:version/:file', function () {
+  var res
+  var text
 
+  after(function () {
+    res.streams.forEach(function (stream) {
+      stream.destroy()
+    })
+    res.agent.close()
+  })
+
+  it('should GET github/component-test/deps-any/0.0.0/index.js', co(function* () {
+    res = yield* request('/github/component-test/deps-any/0.0.0/index.js')
+    res.statusCode.should.equal(200)
+    res.headers['content-type'].should.equal('application/javascript')
+    text = yield get(res, true)
+  }))
+
+  it('should rewrite dependencies', co(function* () {
+    text.trim().should.include('export * from "https://normalize.us/github/component-test/index/*/index.js";')
+    text.trim().should.include('require("https://normalize.us/github/component-test/index/*/index.js")')
+  }))
+
+  it('should get all 2 streams', co(function* () {
+    while (res.streams.length !== 2) {
+      yield function (done) {
+        res.on('push', function () {
+          done()
+        })
+      }
+    }
+
+    var urls = res.streams.map(function (res) {
+      return res.url
+    })
+
+    urls.should.include('/github/component-test/index/0.0.0/index.js')
+    urls.should.include('/github/component-test/index/0.0.0/stuff.js')
+  }))
 })
 
 describe('GET /:remote/:user/:project/:semver/:file', function () {
+  var res
 
+  after(function () {
+    res.streams.forEach(function (stream) {
+      stream.destroy()
+    })
+    res.agent.close()
+  })
+
+  it('should GET github/component-test/deps-any/*/index.js', co(function* () {
+    res = yield* request('/github/component-test/deps-any/*/index.js')
+    res.statusCode.should.equal(302)
+    res.headers.location.should.equal('/github/component-test/deps-any/0.0.0/index.js')
+  }))
+
+  it('should get all 3 streams', co(function* () {
+    while (res.streams.length !== 3) {
+      yield function (done) {
+        res.on('push', function () {
+          done()
+        })
+      }
+    }
+
+    var urls = res.streams.map(function (res) {
+      return res.url
+    })
+
+    urls.should.include('/github/component-test/deps-any/0.0.0/index.js')
+    urls.should.include('/github/component-test/index/0.0.0/index.js')
+    urls.should.include('/github/component-test/index/0.0.0/stuff.js')
+  }))
 })
