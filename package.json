@@ -28,7 +28,7 @@
     "mime": "^1.2.11"
   },
   "devDependencies": {
-    "spdy": "^1.25.1",
+    "spdy": "^1.25.4",
     "spdy-keys": "*",
     "raw-body": "^1.1.4",
     "nodemon": "^1.0.17",
