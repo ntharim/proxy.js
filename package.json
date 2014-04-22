@@ -12,6 +12,7 @@
   "repository": "normalize/proxy.js",
   "dependencies": {
     "co": "^3",
+    "co-fs": "1",
     "debug": "*",
     "semver": "^2.2.1",
     "lru-cache": "^2.5.0",
@@ -26,7 +27,8 @@
     "koa-compress": "^1.0.4",
     "path-match": "^1.1.0",
     "mime": "^1.2.11",
-    "mime-extended": "^1.0.0"
+    "mime-extended": "^1.0.0",
+    "is-module": "1"
   },
   "devDependencies": {
     "spdy": "^1.25.4",

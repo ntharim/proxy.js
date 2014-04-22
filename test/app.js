@@ -18,7 +18,7 @@ describe('GET /remotes', function () {
     var res = yield* request('/remotes.json')
     res.statusCode.should.equal(200)
     var body = JSON.parse(yield get(res, true))
-    body.hostname.should.equal('nrm.link')
+    body.hostname.should.equal('nlz.io')
     var github = body.remotes[0]
     github.name.should.equal('github')
     github.hostname.should.equal('github.com')
@@ -96,8 +96,8 @@ describe('GET /:remote/:user/:project/:version/manifest.json', function () {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
     var text = yield get(stream, true)
-    text.trim().should.include('export * from "https://nrm.link/github/component-test/index/*/index.js";')
-    text.trim().should.include('require("https://nrm.link/github/component-test/index/*/index.js")')
+    text.trim().should.include('export * from "https://nlz.io/github/component-test/index/*/index.js";')
+    text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
   }))
 })
 
@@ -144,8 +144,8 @@ describe('GET /:remote/:user/:project/:semver/manifest.json', function () {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
     var text = yield get(stream, true)
-    text.trim().should.include('export * from "https://nrm.link/github/component-test/index/*/index.js";')
-    text.trim().should.include('require("https://nrm.link/github/component-test/index/*/index.js")')
+    text.trim().should.include('export * from "https://nlz.io/github/component-test/index/*/index.js";')
+    text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
   }))
 })
 
@@ -168,8 +168,8 @@ describe('GET /:remote/:user/:project/:version/:file', function () {
   }))
 
   it('should rewrite dependencies', co(function* () {
-    text.trim().should.include('export * from "https://nrm.link/github/component-test/index/*/index.js";')
-    text.trim().should.include('require("https://nrm.link/github/component-test/index/*/index.js")')
+    text.trim().should.include('export * from "https://nlz.io/github/component-test/index/*/index.js";')
+    text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
   }))
 
   it('should get all 2 streams', co(function* () {

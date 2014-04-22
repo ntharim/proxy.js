@@ -9,7 +9,8 @@ test:
 		--bail \
 		test/remotes.js \
 		test/walker.js \
-		test/app.js
+		test/app.js \
+		test/normalize.js
 
 lint:
 	@$(BIN)jshint lib app
