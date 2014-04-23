@@ -235,31 +235,31 @@ describe('normalize component.json', function () {
     }))
   }))
 
-  // describe('jonathanong/delegated-dropdown@0.0.7', co(function* () {
-  //   var res
-  //
-  //   after(function () {
-  //     res.agent.close()
-  //   })
-  //
-  //   it('should download', co(function* () {
-  //     res = yield* request('/github.com/jonathanong/delegated-dropdown/0.0.7/manifest.json')
-  //     res.statusCode.should.equal(200)
-  //     res.resume()
-  //   }))
-  // }))
+  describe('jonathanong/delegated-dropdown@0.0.7', co(function* () {
+    var res
 
-  // describe('jonathanong/autocomplete@0.1.5', co(function* () {
-  //   var res
-  //
-  //   after(function () {
-  //     res.agent.close()
-  //   })
-  //
-  //   it('should download', co(function* () {
-  //     res = yield* request('/github.com/jonathanong/autocomplete/0.1.5/manifest.json')
-  //     res.statusCode.should.equal(200)
-  //     res.resume()
-  //   }))
-  // }))
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github.com/jonathanong/delegated-dropdown/0.0.7/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
+
+  describe('jonathanong/autocomplete@0.1.5', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github.com/jonathanong/autocomplete/0.1.5/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
 })

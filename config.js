@@ -24,3 +24,8 @@ exports.cacheControl = {
   file: 'public, max-age=' + (parseInt(process.env.NORMALIZE_MAXAGE_FILE, 10)
     || 60 * 60 * 24 * 365), // 1 year
 }
+
+exports.auth = {
+  github: process.env.NORMALIZE_AUTH_GITHUB,
+  bitbucket: process.env.NORMALIZE_AUTH_BITBUCKET,
+}
