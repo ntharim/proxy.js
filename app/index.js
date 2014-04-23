@@ -37,8 +37,8 @@ require('fs')
   app.context[name] = require('../lib/' + name)
 })
 
-// if (app.env === 'test') {
-//   app.on('error', function (err) {
-//     console.error(err.stack)
-//   })
-// }
+if (app.env === 'test') {
+  app.on('error', function (err) {
+    console.error(err.stack)
+  })
+}

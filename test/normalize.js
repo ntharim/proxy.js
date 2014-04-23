@@ -6,6 +6,22 @@ var get = require('raw-body')
 var request = require('./request')
 var server = require('../app/server')
 
+describe('normalize package.json', function () {
+  describe('isaacs/inherits@2.0.1', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/inherits/2.0.1/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
+})
+
 describe('normalize component.json', function () {
   describe('component-test/normalize-multiple-component@0.0.0', co(function* () {
     var res
