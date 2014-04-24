@@ -30,6 +30,7 @@ module.exports = function* (next) {
     // push this file with highest priority
     if (this.spdy) this.push.call(this, file, 0)
   } else {
+    this.response.set('Cache-Control', cacheControl.file)
     this.response.etag = file.hash
     this.response.lastModified = file.mtime
     if (this.request.fresh) return this.response.status = 304
