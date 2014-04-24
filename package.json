@@ -16,6 +16,7 @@
     "debug": "*",
     "semver": "^2.2.1",
     "lru-cache": "^2.5.0",
+    "await-event": "1",
     "normalize-walker": "*",
     "normalize-transforms": "*",
     "normalize-dependencies": "*",
