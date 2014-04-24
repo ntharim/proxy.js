@@ -226,47 +226,47 @@ describe('normalize component.json', function () {
     }))
   }))
 
-  // describe('component/css@0.0.5', co(function* () {
-  //   var res
-  //
-  //   after(function () {
-  //     res.agent.close()
-  //   })
-  //
-  //   it('should download', co(function* () {
-  //     res = yield* request('/github.com/component/css/0.0.5/manifest.json')
-  //     res.statusCode.should.equal(200)
-  //     res.resume()
-  //   }))
-  // }))
+  describe('component/css@0.0.5', co(function* () {
+    var res
 
-  // describe('component/dom@1.0.5', co(function* () {
-  //   var res
-  //
-  //   after(function () {
-  //     res.agent.close()
-  //   })
-  //
-  //   it('should download', co(function* () {
-  //     res = yield* request('/github.com/component/dom/1.0.5/manifest.json')
-  //     res.statusCode.should.equal(200)
-  //     res.resume()
-  //   }))
-  // }))
-  //
-  // describe('component/calendar@0.1.0', co(function* () {
-  //   var res
-  //
-  //   after(function () {
-  //     res.agent.close()
-  //   })
-  //
-  //   it('should download', co(function* () {
-  //     res = yield* request('/github.com/component/calendar/0.1.0/manifest.json')
-  //     res.statusCode.should.equal(200)
-  //     res.resume()
-  //   }))
-  // }))
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github.com/component/css/0.0.5/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
+
+  describe('component/dom@1.0.5', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github.com/component/dom/1.0.5/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
+
+  describe('component/calendar@0.1.0', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github.com/component/calendar/0.1.0/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
 
   describe('component/s3@0.4.0', co(function* () {
     var res
