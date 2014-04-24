@@ -7,7 +7,7 @@ var spdy = require('spdy')
 var keys = require('spdy-keys')
 keys.rejectUnauthorized = false
 
-var app = require('.')
+var app = require('./')
 
 var server =
 module.exports = spdy.createServer(keys, app.callback())
