@@ -5,6 +5,7 @@ var get = require('raw-body')
 
 var request = require('./request')
 var server = require('../app/server')
+var store = require('../config').store
 
 describe('normalize package.json', function () {
   describe('isaacs/inherits@2.0.1', co(function* () {
@@ -18,6 +19,79 @@ describe('normalize package.json', function () {
       res = yield* request('/npm/-/inherits/2.0.1/manifest.json')
       res.statusCode.should.equal(200)
       res.resume()
+    }))
+  }))
+
+  describe('defunctzombie/synthetic-dom-events@0.2.2', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/synthetic-dom-events/0.2.2/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should rewrite .json requires', co(function* () {
+      var string = yield fs.readFile(store + '/npm/-/synthetic-dom-events/0.2.2/index.js', 'utf8')
+      string.should.not.include("'./init.json'")
+      string.should.not.include("'./types.json'")
+      string.should.include('"./init.json.js"')
+      string.should.include('"./types.json.js"')
+    }))
+  }))
+
+  describe('defunctzombie/node-url@0.10.1', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/url/0.10.1/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should proxy main files', co(function* () {
+      yield fs.stat(store + '/npm/-/punycode/1.2.4/index.js')
+      yield fs.stat(store + '/npm/-/url/0.10.1/index.js')
+    }))
+
+    it('should rewrite the punycode dependency', co(function* () {
+      var string = yield fs.readFile(store + '/npm/-/url/0.10.1/url.js', 'utf8')
+      string.should.not.include("'punycode'")
+      string.should.include('"https://nlz.io/npm/-/punycode/1.2.4/index.js"')
+    }))
+  }))
+
+  describe('defunctzombie/node-util@0.10.3', co(function* () {
+    var res
+    var string
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/util/0.10.3/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should rewrite inherits dependency', co(function* () {
+      string = yield fs.readFile(store + '/npm/-/util/0.10.3/util.js', 'utf8')
+      string.should.not.include("'inherit'")
+      string.should.include('"https://nlz.io/npm/-/inherits/2.0.1/index.js"')
+    }))
+
+    it('should rewrite local .browser aliases', co(function* () {
+      string.should.not.include("require('./support/isBuffer')")
+      string.should.include('require("./support/isBufferBrowser.js")')
     }))
   }))
 })
