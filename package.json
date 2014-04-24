@@ -17,6 +17,7 @@
     "semver": "^2.2.1",
     "lru-cache": "^2.5.0",
     "normalize-walker": "*",
+    "normalize-transforms": "*",
     "normalize-dependencies": "*",
     "parse-github-repo-url": "1",
     "github-versions": "repo-utils/versions#2.0.0",

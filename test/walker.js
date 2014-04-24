@@ -31,9 +31,12 @@ describe('Walker', function () {
       assert(fs.existsSync(filename))
     }))
 
-    it('should not have rewritten anything', co(function* () {
-      var file = tree['https://github.com/component-test/remotes/0.0.0/index.js'].file
-      file.string.should.equal(fs.readFileSync(filename, 'utf8'))
+    it('should not have rewritten any dependencies', co(function* () {
+      var string = tree['https://github.com/component-test/remotes/0.0.0/index.js'].file.string
+      string.should.include('//something.com/really/stupid.js')
+      string.should.include('http://something.com/else/stupid.js')
+      string.should.include('https://asdf.com/lkjasdf.js')
+      string.should.include('/kljalksjdf/asdfasdf.js')
     }))
   })
 
@@ -63,11 +66,11 @@ describe('Walker', function () {
       index.remoteURI.should.equal('https://nlz.io/github/component-test/index/0.0.0/index.js')
 
       var file = index.file
-      file.string.should.not.include('module stuff from "./stuff.js"')
-      file.string.should.include('module stuff from "https://nlz.io/github/component-test/index/0.0.0/stuff.js"')
+      file.string.should.not.include("'./stuff.js'")
+      file.string.should.include('https://nlz.io/github/component-test/index/0.0.0/stuff.js')
 
       file = file.dependencies['./stuff.js'].file
-      assert.equal(file.string.trim(), 'export default \'hi\';')
+      file.string.should.not.include('export default')
     }))
 
     it('should have rewritten the CSS dependencies', function () {
@@ -80,7 +83,8 @@ describe('Walker', function () {
       file.string.should.include('@import "https://nlz.io/github/component-test/index/0.0.0/something.css"')
 
       file = file.dependencies['./something.css'].file
-      assert.equal(file.string.trim(), '* {\n  box-sizing: border-box;\n}')
+      file.string.should.include('box-sizing: border-box')
+      file.string.should.include('-moz-box-sizing')
     })
   })
 

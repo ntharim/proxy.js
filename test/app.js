@@ -96,7 +96,7 @@ describe('GET /:remote/:user/:project/:version/manifest.json', function () {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
     var text = yield get(stream, true)
-    text.trim().should.include('export * from "https://nlz.io/github/component-test/index/*/index.js";')
+    text.trim().should.include('"https://nlz.io/github/component-test/index/*/index.js"')
     text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
   }))
 })
@@ -144,7 +144,7 @@ describe('GET /:remote/:user/:project/:semver/manifest.json', function () {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
     var text = yield get(stream, true)
-    text.trim().should.include('export * from "https://nlz.io/github/component-test/index/*/index.js";')
+    text.trim().should.include('"https://nlz.io/github/component-test/index/*/index.js"')
     text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
   }))
 })
@@ -168,7 +168,7 @@ describe('GET /:remote/:user/:project/:version/:file', function () {
   }))
 
   it('should rewrite dependencies', co(function* () {
-    text.trim().should.include('export * from "https://nlz.io/github/component-test/index/*/index.js";')
+    text.trim().should.include('"https://nlz.io/github/component-test/index/*/index.js"')
     text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
   }))
 
