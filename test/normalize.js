@@ -8,7 +8,26 @@ var server = require('../app/server')
 var store = require('../config').store
 
 describe('normalize package.json', function () {
-  describe('isaacs/inherits@2.0.1', co(function* () {
+  describe('twbs/bootstrap@3.1.1', function () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github/twbs/bootstrap/3.1.1/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should proxy index.css', co(function* () {
+      var string = yield fs.readFile(store + '/github/twbs/bootstrap/3.1.1/index.css', 'utf8')
+      string.trim().should.equal('@import "./dist/css/bootstrap.css";')
+    }))
+  })
+
+  describe('isaacs/inherits@2.0.1', function () {
     var res
 
     after(function () {
@@ -20,9 +39,9 @@ describe('normalize package.json', function () {
       res.statusCode.should.equal(200)
       res.resume()
     }))
-  }))
+  })
 
-  describe('defunctzombie/synthetic-dom-events@0.2.2', co(function* () {
+  describe('defunctzombie/synthetic-dom-events@0.2.2', function () {
     var res
 
     after(function () {
@@ -42,9 +61,9 @@ describe('normalize package.json', function () {
       string.should.include('"./init.json.js"')
       string.should.include('"./types.json.js"')
     }))
-  }))
+  })
 
-  describe('defunctzombie/node-url@0.10.1', co(function* () {
+  describe('defunctzombie/node-url@0.10.1', function () {
     var res
 
     after(function () {
@@ -67,9 +86,9 @@ describe('normalize package.json', function () {
       string.should.not.include("'punycode'")
       string.should.include('"https://nlz.io/npm/-/punycode/1.2.4/index.js"')
     }))
-  }))
+  })
 
-  describe('defunctzombie/node-util@0.10.3', co(function* () {
+  describe('defunctzombie/node-util@0.10.3', function () {
     var res
     var string
 
@@ -93,7 +112,7 @@ describe('normalize package.json', function () {
       string.should.not.include("require('./support/isBuffer')")
       string.should.include('require("./support/isBufferBrowser.js")')
     }))
-  }))
+  })
 })
 
 describe('normalize component.json', function () {
