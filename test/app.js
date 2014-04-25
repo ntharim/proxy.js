@@ -31,6 +31,7 @@ describe('GET /:remote/:user/:project/versions.json', function () {
   it('should 404 when there are no versions installed', co(function* () {
     var res = yield* request('/github/asdfasdf/asdfasdf/versions.json')
     res.statusCode.should.equal(404)
+    res.headers['content-type'].should.equal('application/json')
     var body = JSON.parse(yield get(res, true))
     body.should.eql([])
     res.agent.close()
@@ -66,6 +67,7 @@ describe('GET /:remote/:user/:project/:version/manifest.json', function () {
   it('should GET github/component-test/deps-any/0.0.0', co(function* () {
     res = yield* request('/github/component-test/deps-any/0.0.0/manifest.json')
     res.statusCode.should.equal(200)
+    res.headers['content-type'].should.equal('application/json')
     var manifest = JSON.parse(yield get(res, true))
     manifest.version.should.equal('0.0.0')
     manifest.main.should.include('index.js')
