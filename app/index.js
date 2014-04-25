@@ -9,7 +9,7 @@ app.use(require('koa-cdn'))
 app.use(require('koa-favicon')())
 if (app.env !== 'production' && app.env !== 'test')
   app.use(require('koa-logger')())
-app.use(require('koa-compress')())
+app.use(require('koa-compressor')())
 
 if (app.env !== 'production')
   app.use(require('./debug'))
