@@ -24,7 +24,7 @@ app.use(function* (next) {
 })
 
 app.use(require('./home'))
-app.use(require('./remotes'))
+app.use(require('./proxy'))
 app.use(require('./versions'))
 app.use(require('./manifest'))
 app.use(require('./file'))

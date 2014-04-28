@@ -13,18 +13,35 @@ before(function (done) {
   })
 })
 
-describe('GET /remotes', function () {
+describe('GET /proxy', function () {
+  var res
+  var proxy
+
+  after(function () {
+    res.agent.close()
+  })
+
   it('should support github', co(function* () {
-    var res = yield* request('/remotes.json')
+    res = yield* request('/proxy.json')
     res.statusCode.should.equal(200)
-    var body = JSON.parse(yield get(res, true))
-    body.hostname.should.equal('nlz.io')
-    var github = body.remotes[0]
+    proxy = JSON.parse(yield get(res, true))
+    proxy.hostname.should.equal('nlz.io')
+    var github = proxy.remotes[0]
     github.name.should.equal('github')
     github.hostname.should.equal('github.com')
     github.aliases.should.include('raw.github.com')
-    res.agent.close()
+    github.namespace.should.equal(true)
   }))
+
+  it('should support npm', function () {
+    var npm = proxy.remotes[1]
+    npm.name.should.equal('npm')
+    npm.namespace.should.equal(false)
+  })
+
+  it('should return the version', function () {
+    proxy.version.should.equal(require('../package.json').version)
+  })
 })
 
 describe('GET /:remote/:user/:project/versions.json', function () {

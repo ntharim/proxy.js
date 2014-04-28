@@ -63,7 +63,7 @@ describe('Walker', function () {
     it('should have rewritten the JS dependencies', co(function* () {
       var index = tree['https://github.com/component-test/index/0.0.0/index.js']
       index.uri.should.equal(store + 'github/component-test/index/0.0.0/index.js')
-      index.remoteURI.should.equal('https://nlz.io/github/component-test/index/0.0.0/index.js')
+      index.remote.should.equal('https://nlz.io/github/component-test/index/0.0.0/index.js')
 
       var file = index.file
       file.string.should.not.include("'./stuff.js'")
@@ -76,7 +76,7 @@ describe('Walker', function () {
     it('should have rewritten the CSS dependencies', function () {
       var index = tree['https://github.com/component-test/index/0.0.0/index.css']
       index.uri.should.equal(store + 'github/component-test/index/0.0.0/index.css')
-      index.remoteURI.should.equal('https://nlz.io/github/component-test/index/0.0.0/index.css')
+      index.remote.should.equal('https://nlz.io/github/component-test/index/0.0.0/index.css')
 
       var file = index.file
       file.string.should.not.include('@import "./something.css"')

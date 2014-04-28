@@ -6,12 +6,14 @@ var cacheControl = require('../config').cacheControl.remotes
 var json = {
   hostname: require('../config').hostname,
   aliases: remotes.aliases,
+  version: require('../package.json').version,
   remotes: remotes.names.map(function (name) {
     var remote = remotes[name]
     return {
       name: remote.name,
       hostname: remote.hostname,
       aliases: remote.aliases,
+      namespace: remote.namespace !== false,
     }
   })
 }
@@ -25,7 +27,7 @@ var mtime = new Date()
  */
 
 module.exports = function* (next) {
-  if (this.request.path !== '/remotes.json') return yield* next
+  if (this.request.path !== '/proxy.json') return yield* next
 
   this.response.etag = hash
   this.response.lastModified = mtime
