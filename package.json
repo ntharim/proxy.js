@@ -31,9 +31,8 @@
     "koa-spdy-push": "0",
     "koa-compressor": "^1.0.0",
     "path-match": "^1.1.0",
-    "mime": "^1.2.11",
-    "mime-extended": "^1.0.0",
-    "is-module": "1"
+    "is-module": "1",
+    "set-type": "1"
   },
   "devDependencies": {
     "spdy": "^1.25.4",

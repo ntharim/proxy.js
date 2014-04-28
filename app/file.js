@@ -28,7 +28,7 @@ module.exports = function* (next) {
     this.response.redirect(uripath)
     this.response.set('Cache-Control', cacheControl.semver)
     // push this file with highest priority
-    if (this.spdy) this.push.call(this, file, 0)
+    if (this.spdy) this.push(file, false, 0)
   } else {
     this.response.set('Cache-Control', cacheControl.file)
     this.response.etag = file.hash
@@ -48,5 +48,7 @@ module.exports = function* (next) {
   if (!this.spdy) return
   flatten(tree).filter(function (x) {
     return file !== x
-  }).forEach(this.push, this)
+  }).forEach(function (file) {
+    this.push(file, false)
+  }, this)
 }

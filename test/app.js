@@ -13,7 +13,7 @@ before(function (done) {
   })
 })
 
-describe('GET /proxy', function () {
+describe('GET /proxy.json', function () {
   var res
   var proxy
 
@@ -219,7 +219,7 @@ describe('GET /:remote/:user/:project/:semver/:file', function () {
     res.agent.close()
   })
 
-  it('should GET github/component-test/deps-any/*/index.js', co(function* () {
+  it('should GET /github/component-test/deps-any/*/index.js', co(function* () {
     res = yield* request('/github/component-test/deps-any/*/index.js')
     res.statusCode.should.equal(302)
     res.headers.location.should.equal('/github/component-test/deps-any/0.0.0/index.js')
@@ -242,6 +242,58 @@ describe('GET /:remote/:user/:project/:semver/:file', function () {
     urls.should.include('/github/component-test/index/0.0.0/index.js')
     urls.should.include('/github/component-test/index/0.0.0/stuff.js')
   }))
+})
+
+describe('Push Streams', function () {
+  var res
+
+  afterEach(function () {
+    res.streams.forEach(function (stream) {
+      stream.destroy()
+    })
+    res.agent.close()
+  })
+
+  describe('GET /github/component-test/json-transform/0.0.1/index.js', function () {
+    it('should push the transformed file', co(function* () {
+      res = yield* request('/github/component-test/json-transform/0.0.1/index.js')
+      res.statusCode.should.equal(200)
+
+      while (res.streams.length !== 1) {
+        yield function (done) {
+          res.on('push', function () {
+            done()
+          })
+        }
+      }
+
+      res.streams[0].url.should.equal('/github/component-test/json-transform/0.0.1/something.json.js')
+    }))
+  })
+
+  describe('GET /github/component-test/json-transform/0.0.1/manifest.json', function () {
+    it('should push the source file', co(function* () {
+      res = yield* request('/github/component-test/json-transform/0.0.1/manifest.json')
+      res.statusCode.should.equal(200)
+
+      while (res.streams.length !== 2) {
+        yield function (done) {
+          res.on('push', function () {
+            done()
+          })
+        }
+      }
+
+      var stream = res.streams.filter(function (res) {
+        return res.url === '/github/component-test/json-transform/0.0.1/something.json'
+      })[0]
+      stream.should.be.ok
+      var value = yield get(stream, true)
+      JSON.parse(value).should.eql({
+        message: 'hello'
+      })
+    }))
+  })
 })
 
 describe('GET nonexistent file', function () {

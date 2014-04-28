@@ -17,7 +17,8 @@ if (app.env !== 'production')
 app.use(function* (next) {
   this.spdy = this.req.isSpdy
     && this.req.method === 'GET'
-  // we may add a lot of socket listeners
+  // we may add a lot of socket listeners,
+  // specifically spdy push listeners to avoid fd leaks
   this.socket.setMaxListeners(0)
 
   yield* next

@@ -42,5 +42,7 @@ module.exports = function* (next) {
 
   // spdy push all the shit
   if (!this.spdy) return
-  flatten(tree).forEach(this.push, this)
+  flatten(tree).forEach(function (file) {
+    this.push(file, true)
+  }, this)
 }
