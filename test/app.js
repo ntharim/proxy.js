@@ -110,13 +110,13 @@ describe('GET /:remote/:user/:project/:version/manifest.json', function () {
     urls.should.include('/github/component-test/index/0.0.0/index.js')
   }))
 
-  it('should rewrite dependencies', co(function* () {
+  it('should not rewrite dependencies', co(function* () {
     var stream = res.streams.filter(function (stream) {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
     var text = yield get(stream, true)
-    text.trim().should.include('"https://nlz.io/github/component-test/index/*/index.js"')
-    text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
+    text.trim().should.include('"https://github.com/component-test/index/*/index.js"')
+    text.trim().should.include('require("https://github.com/component-test/index/*/index.js")')
   }))
 })
 
@@ -158,13 +158,13 @@ describe('GET /:remote/:user/:project/:semver/manifest.json', function () {
     urls.should.include('/github/component-test/index/0.0.0/index.js')
   }))
 
-  it('should rewrite dependencies', co(function* () {
+  it('should not rewrite dependencies', co(function* () {
     var stream = res.streams.filter(function (stream) {
       return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
     }).shift()
     var text = yield get(stream, true)
-    text.trim().should.include('"https://nlz.io/github/component-test/index/*/index.js"')
-    text.trim().should.include('require("https://nlz.io/github/component-test/index/*/index.js")')
+    text.trim().should.include('"https://github.com/component-test/index/*/index.js"')
+    text.trim().should.include('require("https://github.com/component-test/index/*/index.js")')
   }))
 })
 
