@@ -147,6 +147,76 @@ describe('GET /:remote/:user/:project/:semver/:file', function () {
   }))
 })
 
+describe('GET /:remote/:user/:project/:version/:file?source', function () {
+  var res
+  var text
+
+  after(function () {
+    res.streams.forEach(function (stream) {
+      stream.destroy()
+    })
+    res.agent.close()
+  })
+
+  it('should GET github/component-test/json-transform/0.0.1/something.json.js?source', co(function* () {
+    res = yield* request('/github/component-test/json-transform/0.0.1/something.json.js?source')
+    res.statusCode.should.equal(302)
+    res.headers.location.should.equal('/github/component-test/json-transform/0.0.1/something.json?source')
+    res.resume()
+  }))
+
+  it('should get the source', co(function* () {
+    while (res.streams.length !== 1) {
+      yield function (done) {
+        res.on('push', function () {
+          done()
+        })
+      }
+    }
+
+    var urls = res.streams.map(function (res) {
+      return res.url
+    })
+
+    urls.should.include('/github/component-test/json-transform/0.0.1/something.json?source')
+  }))
+})
+
+describe('GET /:remote/:user/:project/:semver/:file?source', function () {
+  var res
+  var text
+
+  after(function () {
+    res.streams.forEach(function (stream) {
+      stream.destroy()
+    })
+    res.agent.close()
+  })
+
+  it('should GET github/component-test/json-transform/*/something.json.js?source', co(function* () {
+    res = yield* request('/github/component-test/json-transform/*/something.json.js?source')
+    res.statusCode.should.equal(302)
+    res.headers.location.should.equal('/github/component-test/json-transform/0.0.1/something.json?source')
+    res.resume()
+  }))
+
+  it('should get the source', co(function* () {
+    while (res.streams.length !== 1) {
+      yield function (done) {
+        res.on('push', function () {
+          done()
+        })
+      }
+    }
+
+    var urls = res.streams.map(function (res) {
+      return res.url
+    })
+
+    urls.should.include('/github/component-test/json-transform/0.0.1/something.json?source')
+  }))
+})
+
 describe('Push Streams', function () {
   var res
 
