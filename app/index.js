@@ -39,8 +39,20 @@ require('fs')
   app.context[name] = require('../lib/' + name)
 })
 
-// if (app.env === 'test') {
-//   app.on('error', function (err) {
-//     console.error(err.stack)
-//   })
-// }
+app.removeAllListeners('error')
+app.on('error', function (err) {
+  if (err.expose) return
+
+  switch (err.code) {
+  case 'ECONNRESET':
+  case 'RST_STREAM':
+    return
+  }
+
+  switch (err.message) {
+  case 'Write after end!':
+    return
+  }
+
+  console.error(err.stack)
+})
