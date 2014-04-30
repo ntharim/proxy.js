@@ -71,103 +71,6 @@ describe('GET /:remote/:user/:project/versions.json', function () {
   }))
 })
 
-describe('GET /:remote/:user/:project/:version/manifest.json', function () {
-  var res
-
-  after(function () {
-    res.streams.forEach(function (stream) {
-      stream.destroy()
-    })
-    res.agent.close()
-  })
-
-  it('should GET github/component-test/deps-any/0.0.0', co(function* () {
-    res = yield* request('/github/component-test/deps-any/0.0.0/manifest.json')
-    res.statusCode.should.equal(200)
-    res.headers['content-type'].should.equal('application/json')
-    var manifest = JSON.parse(yield get(res, true))
-    manifest.version.should.equal('0.0.0')
-    manifest.main.should.include('index.js')
-    manifest.main.should.include('index.css')
-    manifest.files.length.should.be.ok
-  }))
-
-  it('should get all 6 streams', co(function* () {
-    while (res.streams.length !== 6) {
-      yield function (done) {
-        res.on('push', function () {
-          done()
-        })
-      }
-    }
-
-    var urls = res.streams.map(function (res) {
-      return res.url
-    })
-
-    urls.should.include('/github/component-test/deps-any/0.0.0/index.js')
-    urls.should.include('/github/component-test/deps-any/0.0.0/index.css')
-    urls.should.include('/github/component-test/index/0.0.0/index.js')
-  }))
-
-  it('should not rewrite dependencies', co(function* () {
-    var stream = res.streams.filter(function (stream) {
-      return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
-    }).shift()
-    var text = yield get(stream, true)
-    text.trim().should.include('"https://github.com/component-test/index/*/index.js"')
-    text.trim().should.include('require("https://github.com/component-test/index/*/index.js")')
-  }))
-})
-
-describe('GET /:remote/:user/:project/:semver/manifest.json', function () {
-  var res
-
-  after(function () {
-    res.streams.forEach(function (stream) {
-      stream.destroy()
-    })
-    res.agent.close()
-  })
-
-  it('should GET github/component-test/deps-any/*', co(function* () {
-    res = yield* request('/github/component-test/deps-any/*/manifest.json')
-    res.statusCode.should.equal(200)
-    var manifest = JSON.parse(yield get(res, true))
-    manifest.version.should.equal('0.0.0')
-    manifest.main.should.include('index.js')
-    manifest.main.should.include('index.css')
-    manifest.files.length.should.be.ok
-  }))
-
-  it('should get all 6 streams', co(function* () {
-    while (res.streams.length !== 6) {
-      yield function (done) {
-        res.on('push', function () {
-          done()
-        })
-      }
-    }
-
-    var urls = res.streams.map(function (res) {
-      return res.url
-    })
-
-    urls.should.include('/github/component-test/deps-any/0.0.0/index.js')
-    urls.should.include('/github/component-test/deps-any/0.0.0/index.css')
-    urls.should.include('/github/component-test/index/0.0.0/index.js')
-  }))
-
-  it('should not rewrite dependencies', co(function* () {
-    var stream = res.streams.filter(function (stream) {
-      return stream.url === '/github/component-test/deps-any/0.0.0/index.js'
-    }).shift()
-    var text = yield get(stream, true)
-    text.trim().should.include('"https://github.com/component-test/index/*/index.js"')
-    text.trim().should.include('require("https://github.com/component-test/index/*/index.js")')
-  }))
-})
-
 describe('GET /:remote/:user/:project/:version/:file', function () {
   var res
   var text
@@ -268,30 +171,6 @@ describe('Push Streams', function () {
       }
 
       res.streams[0].url.should.equal('/github/component-test/json-transform/0.0.1/something.json.js')
-    }))
-  })
-
-  describe('GET /github/component-test/json-transform/0.0.1/manifest.json', function () {
-    it('should push the source file', co(function* () {
-      res = yield* request('/github/component-test/json-transform/0.0.1/manifest.json')
-      res.statusCode.should.equal(200)
-
-      while (res.streams.length !== 2) {
-        yield function (done) {
-          res.on('push', function () {
-            done()
-          })
-        }
-      }
-
-      var stream = res.streams.filter(function (res) {
-        return res.url === '/github/component-test/json-transform/0.0.1/something.json'
-      })[0]
-      stream.should.be.ok
-      var value = yield get(stream, true)
-      JSON.parse(value).should.eql({
-        message: 'hello'
-      })
     }))
   })
 })

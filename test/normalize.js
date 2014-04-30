@@ -15,9 +15,9 @@ describe('normalize package.json', function () {
       res.agent.close()
     })
 
-    it('should download', co(function* () {
-      res = yield* request('/npm/-/jstransform/4.0.1/manifest.json')
-      res.statusCode.should.equal(200)
+    it('should download even though normalization fails because of the crazy esprima dep', co(function* () {
+      res = yield* request('/npm/-/jstransform/4.0.1/index.js')
+      res.statusCode.should.equal(404)
       res.resume()
     }))
   })
@@ -30,7 +30,7 @@ describe('normalize package.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/npm/-/browserify/3.44.2/manifest.json')
+      res = yield* request('/npm/-/browserify/3.44.2/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -44,7 +44,7 @@ describe('normalize package.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/npm/-/builtins/0.0.4/manifest.json')
+      res = yield* request('/npm/-/builtins/0.0.4/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -64,7 +64,7 @@ describe('normalize package.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github/twbs/bootstrap/3.1.1/manifest.json')
+      res = yield* request('/github/twbs/bootstrap/3.1.1/index.css')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -83,7 +83,7 @@ describe('normalize package.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/npm/-/inherits/2.0.1/manifest.json')
+      res = yield* request('/npm/-/inherits/2.0.1/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -97,7 +97,7 @@ describe('normalize package.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/npm/-/synthetic-dom-events/0.2.2/manifest.json')
+      res = yield* request('/npm/-/synthetic-dom-events/0.2.2/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -119,7 +119,7 @@ describe('normalize package.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/npm/-/url/0.10.1/manifest.json')
+      res = yield* request('/npm/-/url/0.10.1/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -145,7 +145,7 @@ describe('normalize package.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/npm/-/util/0.10.3/manifest.json')
+      res = yield* request('/npm/-/util/0.10.3/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -172,7 +172,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/component-test/normalize-multiple-component/0.0.0/manifest.json')
+      res = yield* request('/github/component-test/normalize-multiple-component/0.0.0/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -180,26 +180,22 @@ describe('normalize component.json', function () {
 
   describe('jonathanong/horizontal-grid-packing@0.1.4', function () {
     var res
-    var files
 
     after(function () {
       res.agent.close()
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/jonathanong/horizontal-grid-packing/0.1.4/manifest.json')
+      res = yield* request('/github/jonathanong/horizontal-grid-packing/0.1.4/index.js')
       res.statusCode.should.equal(200)
-      var manifest = JSON.parse(yield get(res, true))
-      files = manifest.files.map(function (file) {
-        return file.uri
-      })
+      res.resume()
     }))
 
     it('should resolve', co(function* () {
-      files.should.include('https://nlz.io/github/jonathanong/horizontal-grid-packing/0.1.4/index.js')
-      files.should.include('https://nlz.io/github/jonathanong/horizontal-grid-packing/0.1.4/index.css')
-      files.should.include('https://nlz.io/github/jonathanong/horizontal-grid-packing/0.1.4/lib/pack.js')
-      files.should.include('https://nlz.io/github/jonathanong/horizontal-grid-packing/0.1.4/lib/pack.css')
+      yield fs.stat(store + 'github/jonathanong/horizontal-grid-packing/0.1.4/index.js')
+      yield fs.stat(store + 'github/jonathanong/horizontal-grid-packing/0.1.4/index.css')
+      yield fs.stat(store + 'github/jonathanong/horizontal-grid-packing/0.1.4/lib/pack.js')
+      yield fs.stat(store + 'github/jonathanong/horizontal-grid-packing/0.1.4/lib/pack.css')
     }))
   })
 
@@ -211,7 +207,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/visionmedia/jade/1.3.1/manifest.json')
+      res = yield* request('/github/visionmedia/jade/1.3.1/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -231,7 +227,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/component/to-function/2.0.0/manifest.json')
+      res = yield* request('/github/component/to-function/2.0.0/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -245,7 +241,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/component/each/0.2.3/manifest.json')
+      res = yield* request('/github/component/each/0.2.3/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -259,7 +255,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/ianstormtaylor/to-camel-case/0.2.1/manifest.json')
+      res = yield* request('/github/ianstormtaylor/to-camel-case/0.2.1/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -273,7 +269,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/component/within-document/0.0.1/manifest.json')
+      res = yield* request('/github/component/within-document/0.0.1/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -287,7 +283,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/visionmedia/debug/0.8.1/manifest.json')
+      res = yield* request('/github/visionmedia/debug/0.8.1/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -301,7 +297,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/component/css/0.0.5/manifest.json')
+      res = yield* request('/github/component/css/0.0.5/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -315,7 +311,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/component/dom/1.0.5/manifest.json')
+      res = yield* request('/github/component/dom/1.0.5/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -329,7 +325,7 @@ describe('normalize component.json', function () {
   //   })
   //
   //   it('should download', co(function* () {
-  //     res = yield* request('/github.com/component/calendar/0.1.0/manifest.json')
+  //     res = yield* request('/github/component/calendar/0.1.0/index.js')
   //     res.statusCode.should.equal(200)
   //     res.resume()
   //   }))
@@ -343,7 +339,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/component/s3/0.4.0/manifest.json')
+      res = yield* request('/github/component/s3/0.4.0/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -357,7 +353,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/visionmedia/superagent/0.17.0/manifest.json')
+      res = yield* request('/github/visionmedia/superagent/0.17.0/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -373,7 +369,7 @@ describe('normalize component.json', function () {
   //   })
   //
   //   it('should download', co(function* () {
-  //     res = yield* request('/github.com/component/tip/1.0.3/manifest.json')
+  //     res = yield* request('/github/component/tip/1.0.3/index.js')
   //     res.statusCode.should.equal(200)
   //     res.resume()
   //   }))
@@ -387,7 +383,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/jonathanong/eevee/0.0.4/manifest.json')
+      res = yield* request('/github/jonathanong/eevee/0.0.4/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -401,7 +397,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/jonathanong/delegated-dropdown/0.0.7/manifest.json')
+      res = yield* request('/github/jonathanong/delegated-dropdown/0.0.7/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
@@ -415,7 +411,7 @@ describe('normalize component.json', function () {
     })
 
     it('should download', co(function* () {
-      res = yield* request('/github.com/jonathanong/autocomplete/0.1.5/manifest.json')
+      res = yield* request('/github/jonathanong/autocomplete/0.1.5/index.js')
       res.statusCode.should.equal(200)
       res.resume()
     }))
