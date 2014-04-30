@@ -8,6 +8,26 @@ var server = require('../app/server')
 var store = require('../config').store
 
 describe('normalize package.json', function () {
+  describe('segmentio/builtins@0.0.4', function () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/builtins/0.0.4/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should proxy index.js', co(function* () {
+      var string = yield fs.readFile(store + '/npm/-/builtins/0.0.4/index.js', 'utf8')
+      string.trim().replace(/\/\/.+/, '')
+        .should.equal('module.exports = require("./builtins.json.js")')
+    }))
+  })
+
   describe('twbs/bootstrap@3.1.1', function () {
     var res
 
