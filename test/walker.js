@@ -6,7 +6,6 @@ var fs = require('fs')
 
 var Walker = require('../lib/walker')
 var store = require('../config').store
-var serialize = require('../lib/serialize')
 
 function clean(done) {
   rimraf(store, done)
@@ -173,18 +172,6 @@ describe('Walker', function () {
       files.should.include(store + 'github/component-test/index/0.0.0/index.css')
       files.should.include(store + 'github/component-test/index/0.0.0/something.css')
       files.should.include(store + 'github/component-test/deps-any/0.0.0/index.css')
-    })
-
-    it('should serialize files', function () {
-      var files = serialize(tree)
-      var file = files.slice(-1)[0]
-      file.uri.should.equal('https://nlz.io/github/component-test/deps-any/0.0.0/index.css')
-      file.source.should.equal('https://nlz.io/github/component-test/deps-any/0.0.0/index.css')
-      file.hash.should.be.ok
-      file.mtime.should.be.ok
-      file.dependencies.should.eql([
-        'https://nlz.io/github/component-test/index/0.0.0/index.css'
-      ])
     })
   })
 })
