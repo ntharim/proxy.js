@@ -10,6 +10,7 @@ app.use(require('koa-favicon')())
 if (app.env !== 'production' && app.env !== 'test')
   app.use(require('koa-logger')())
 app.use(require('koa-compressor')())
+app.use(require('koa-json-error')())
 
 if (app.env !== 'production')
   app.use(require('./debug'))
@@ -24,7 +25,6 @@ app.use(function* (next) {
   yield* next
 })
 
-app.use(require('./error'))
 app.use(require('./home'))
 app.use(require('./proxy'))
 app.use(require('./versions'))
