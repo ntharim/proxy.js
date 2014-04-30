@@ -8,6 +8,34 @@ var server = require('../app/server')
 var store = require('../config').store
 
 describe('normalize package.json', function () {
+  describe('facebook/jstransform@4.0.1', function () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/jstransform/4.0.1/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  })
+
+  describe('substack/browserify@3.44.2', function () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/browserify/3.44.2/manifest.json')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  })
+
   describe('segmentio/builtins@0.0.4', function () {
     var res
 

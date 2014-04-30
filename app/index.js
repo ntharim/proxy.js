@@ -24,6 +24,7 @@ app.use(function* (next) {
   yield* next
 })
 
+app.use(require('./error'))
 app.use(require('./home'))
 app.use(require('./proxy'))
 app.use(require('./versions'))

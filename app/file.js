@@ -31,6 +31,7 @@ module.exports = function* (next) {
     if (this.spdy) this.push(file, false, 0)
   } else {
     this.response.set('Cache-Control', cacheControl.file)
+    if (file.exists === false) this.throw(404)
     this.response.etag = file.hash
     this.response.lastModified = file.mtime
     if (this.request.fresh) return this.response.status = 304
