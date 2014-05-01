@@ -30,6 +30,7 @@ app.use(require('./proxy'))
 app.use(require('./versions'))
 app.use(require('./file'))
 
+// load all the lib/ stuff as context functions
 require('fs')
 .readdirSync(require('path').resolve(__dirname, '../lib'))
 .forEach(function (name) {
