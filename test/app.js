@@ -13,6 +13,10 @@ before(function (done) {
   })
 })
 
+beforeEach(function () {
+  require('../lib/walker').cache.reset()
+})
+
 describe('GET /proxy.json', function () {
   var res
   var proxy
