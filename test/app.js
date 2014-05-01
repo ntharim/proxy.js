@@ -1,9 +1,11 @@
 
 var co = require('co')
+var fs = require('co-fs')
 var get = require('raw-body')
 
 var request = require('./request')
 var server = require('../app/server')
+var store = require('../config').store
 
 before(function (done) {
   server.listen(function (err) {
@@ -46,6 +48,15 @@ describe('GET /proxy.json', function () {
   it('should return the version', function () {
     proxy.version.should.equal(require('../package.json').version)
   })
+})
+
+describe('GET /:remote/:user/:project/:version/pull', function () {
+  it('should pull the project', co(function* () {
+    var res = yield* request('/github/the-swerve/linear-partitioning/=0.3.1/pull')
+    res.statusCode.should.equal(204)
+
+    yield fs.stat(store + 'github/the-swerve/linear-partitioning/0.3.1/index.js')
+  }))
 })
 
 describe('GET /:remote/:user/:project/versions.json', function () {

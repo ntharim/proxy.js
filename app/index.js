@@ -28,6 +28,7 @@ app.use(function* (next) {
 app.use(require('./home'))
 app.use(require('./proxy'))
 app.use(require('./versions'))
+app.use(require('./pull'))
 app.use(require('./file'))
 
 // load all the lib/ stuff as context functions

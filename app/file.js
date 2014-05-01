@@ -1,7 +1,6 @@
 
 var fs = require('fs')
 var url = require('url')
-var path = require('path')
 var flatten = require('normalize-walker').flatten
 
 var route = require('./route')
