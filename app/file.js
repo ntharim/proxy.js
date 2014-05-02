@@ -1,6 +1,7 @@
 
 var fs = require('fs')
 var url = require('url')
+var extname = require('path').extname
 var flatten = require('normalize-walker').flatten
 
 var route = require('./route')
@@ -54,7 +55,7 @@ module.exports = function* (next) {
     if (this.request.fresh) return this.response.status = 304
 
     if (source) {
-      this.response.type = path.extname(file.source)
+      this.response.type = extname(file.source)
       if (this.request.method === 'HEAD') return this.response.status = 200
       this.response.body = fs.createReadStream(file.source)
     } else if (minified && file.is('js', 'css')) {
