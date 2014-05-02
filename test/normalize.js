@@ -164,7 +164,21 @@ describe('normalize package.json', function () {
 })
 
 describe('normalize component.json', function () {
-  describe('component-test/normalize-multiple-component@0.0.0', co(function* () {
+  describe('component/classes@1.2.1', function () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github/component/classes/1.2.1/index.js')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  })
+
+  describe('component-test/normalize-multiple-component@0.0.0', function () {
     var res
 
     after(function () {
@@ -176,7 +190,7 @@ describe('normalize component.json', function () {
       res.statusCode.should.equal(200)
       res.resume()
     }))
-  }))
+  })
 
   describe('jonathanong/horizontal-grid-packing@0.1.4', function () {
     var res
