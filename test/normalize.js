@@ -164,6 +164,20 @@ describe('normalize package.json', function () {
 })
 
 describe('normalize component.json', function () {
+  describe('visionmedia/mocha@1.18.2', function () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github/visionmedia/mocha/1.18.2/index.js')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  })
+
   describe('component/classes@1.2.1', function () {
     var res
 
