@@ -232,6 +232,39 @@ describe('GET /:remote/:user/:project/:semver/:file?source', function () {
   }))
 })
 
+describe('Semantic Versions', function () {
+  it('should support ^', co(function* () {
+    var res = yield* request('/github/component/emitter/^1.0.0/index.js')
+    res.statusCode.should.equal(302)
+    res.agent.destroy()
+  }))
+
+  it('should support ~', co(function* () {
+    var res = yield* request('/github/component/emitter/~1.0.0/index.js')
+    res.statusCode.should.equal(302)
+    res.agent.destroy()
+  }))
+
+  // maybe remove this?
+  // it('should support spaces', co(function* () {
+  //   var res = yield* request('/github/component/emitter/~ 1.0.0/index.js')
+  //   res.statusCode.should.equal(302)
+  //   res.agent.destroy()
+  // }))
+
+  it('should support <', co(function* () {
+    var res = yield* request('/github/component/emitter/<1/index.js')
+    res.statusCode.should.equal(302)
+    res.agent.destroy()
+  }))
+
+  it('should support >', co(function* () {
+    var res = yield* request('/github/component/emitter/>1.0.0/index.js')
+    res.statusCode.should.equal(302)
+    res.agent.destroy()
+  }))
+})
+
 describe('Push Streams', function () {
   var res
 

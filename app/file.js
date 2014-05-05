@@ -1,8 +1,10 @@
 
 var fs = require('fs')
 var url = require('url')
+var inspect = require('util').inspect
 var extname = require('path').extname
 var flatten = require('normalize-walker').flatten
+var debug = require('debug')('normalize-proxy:app:file')
 
 var route = require('./route')
 var cacheControl = require('../config').cacheControl
@@ -16,6 +18,8 @@ module.exports = function* (next) {
   var params = matchEntryPoint(path)
     || matchAnyFile(path)
   if (!params) return yield* next
+
+  debug('path %s got params %s', path, inspect(params))
 
   var source
   var minified
@@ -33,8 +37,15 @@ module.exports = function* (next) {
     this.throw(404, 'invalid query string. only ?search and ?minified allowed.')
   }
 
-  var res = this.uri.parseRemote(path)
-  var uri = this.uri.remote(res)
+  var uri = this.uri.remote(
+    this.remotes(params.remote),
+    params.user,
+    params.project,
+    params.version,
+    params.file || params.tail || 'index.html'
+  )
+
+  debug('resolved to uri %s', uri)
 
   var tree = yield* this.walker().add(uri).tree()
   var file = tree[uri].file
