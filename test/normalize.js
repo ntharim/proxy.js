@@ -243,7 +243,7 @@ describe('normalize component.json', function () {
     it('should rewrite require("fs")', co(function* () {
       var string = yield fs.readFile(process.cwd() + '/repositories/github/visionmedia/jade/1.3.1/lib/runtime.js', 'utf8')
       string.should.not.include("require('fs')")
-      string.should.include('require("https://nlz.io/npm/-/browserify/*/lib/_empty.js")')
+      string.should.include('require("https://nlz.io/github/normalize/empty/1/index.js")')
     }))
   })
 
