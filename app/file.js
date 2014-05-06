@@ -42,7 +42,7 @@ module.exports = function* (next) {
     params.user,
     params.project,
     params.version,
-    params.file || params.tail || 'index.html'
+    ((params.file || '') + (params.tail || '')) || 'index.html'
   )
 
   debug('resolved to uri %s', uri)
