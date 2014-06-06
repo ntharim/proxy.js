@@ -5,7 +5,7 @@ var app = module.exports = koa()
 
 // app.outputErrors = true
 
-app.use(require('koa-cdn'))
+app.use(require('koa-cdn')())
 app.use(require('koa-favicon')())
 if (app.env !== 'production' && app.env !== 'test')
   app.use(require('koa-logger')())
@@ -25,6 +25,9 @@ app.use(function* (next) {
   yield* next
 })
 
+app.use(require('koa-polyfills')({
+  cache: process.cwd() + '/polyfills-cache'
+}))
 app.use(require('./home'))
 app.use(require('./proxy'))
 app.use(require('./versions'))

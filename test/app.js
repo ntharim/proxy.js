@@ -19,6 +19,15 @@ beforeEach(function () {
   require('../lib/walker').cache.reset()
 })
 
+describe('GET /polyfill.js', function () {
+  it('should return .js', co(function* () {
+    var res = yield* request('/polyfill.js')
+    res.statusCode.should.equal(200)
+    res.headers['content-type'].should.equal('application/javascript; charset=utf-8')
+    res.resume()
+  }))
+})
+
 describe('GET /proxy.json', function () {
   var res
   var proxy
@@ -63,7 +72,7 @@ describe('GET /:remote/:user/:project/versions.json', function () {
   it('should 404 when there are no versions installed', co(function* () {
     var res = yield* request('/github/asdfasdf/asdfasdf/versions.json')
     res.statusCode.should.equal(404)
-    res.headers['content-type'].should.equal('application/json')
+    res.headers['content-type'].should.equal('application/json; charset=utf-8')
     var body = JSON.parse(yield get(res, true))
     body.should.eql([])
     res.agent.close()
