@@ -8,6 +8,39 @@ var server = require('../app/server')
 var store = require('../config').store
 
 describe('normalize package.json', function () {
+  describe('main-loop@1.8.0', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/main-loop/1.8.0/index.js')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should resolve all semvers', co(function* () {
+      var string = yield fs.readFile(store + 'npm/-/main-loop/1.8.0/index.js', 'utf8')
+      string.should.not.include('raf/*/')
+    }))
+  }))
+
+  describe('performance-now@0.1.3', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/performance-now/0.1.3/index.js')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
+
   describe('mercury@4.3.0', co(function* () {
     var res
 
