@@ -8,6 +8,20 @@ var server = require('../app/server')
 var store = require('../config').store
 
 describe('normalize package.json', function () {
+  describe('normalize/transforms.js', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github/normalize/transforms.js/*/README.md')
+      res.statusCode.should.equal(302)
+      res.resume()
+    }))
+  }))
+
   describe('barberboy/dom-elements@0.1.0', function () {
     var res
 
