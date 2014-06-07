@@ -8,6 +8,20 @@ var server = require('../app/server')
 var store = require('../config').store
 
 describe('normalize package.json', function () {
+  describe('JSONStream@0.8.2', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/npm/-/JSONStream/0.8.2/index.js')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+  }))
+
   describe('main-loop@1.8.0', co(function* () {
     var res
 
