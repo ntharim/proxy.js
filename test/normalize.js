@@ -217,6 +217,25 @@ describe('normalize package.json', function () {
 })
 
 describe('normalize component.json', function () {
+  describe('visionmedia/debug@1.0.1', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github/visionmedia/debug/1.0.1/index.js')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should rewrite require("ms")', co(function* () {
+      var string = yield fs.readFile(process.cwd() + '/repositories/github/visionmedia/debug/1.0.1/debug.js', 'utf8')
+      string.should.not.include("require('ms')")
+    }))
+  }))
+
   describe('visionmedia/mocha@1.18.2', function () {
     var res
 
