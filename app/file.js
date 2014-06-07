@@ -58,7 +58,7 @@ module.exports = function* (next) {
     this.response.redirect(uripath + search)
     this.response.set('Cache-Control', cacheControl.semver)
     // push this file with highest priority
-    if (this.spdy) this.push(file, search, 0)
+    if (this.spdy) yield this.push(file, search, 0)
   } else {
     this.response.set('Cache-Control', cacheControl.file)
     this.response.etag = file.hash
