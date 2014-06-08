@@ -5,6 +5,16 @@ var remotes = require('../lib/remotes')
 var uris = require('../lib/uri')
 
 describe('Remotes', function () {
+  describe('.remotes()', function () {
+    it('should have a hostname', function () {
+      remotes.hostname.should.equal('nlz.io')
+    })
+
+    it('should have aliases', function () {
+      remotes.aliases.should.containEql('nlz.io')
+    })
+  })
+
   describe('GitHub', function () {
     it('should have all aliases', function () {
       remotes('github').name.should.equal('github')
