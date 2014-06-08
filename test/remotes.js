@@ -23,6 +23,10 @@ describe('Remotes', function () {
       remotes('raw.github.com').name.should.equal('github')
       remotes('raw.githubusercontent.com').name.should.equal('github')
     })
+
+    it('should include its name as an alias', function () {
+      assert(~remotes.github.aliases.indexOf('github'))
+    })
   })
 
   describe('NPM', function () {
@@ -30,6 +34,10 @@ describe('Remotes', function () {
       assert.throws(function () {
         uris.parseRemote('https://nlz.io/npm/lkjasdf/emitter/1.0.0/index.js')
       })
+    })
+
+    it('should include its name as an alias', function () {
+      assert(~remotes.npm.aliases.indexOf('npm'))
     })
   })
 })
