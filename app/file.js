@@ -54,6 +54,16 @@ module.exports = function* (next) {
   uri = this.uri.localToRemote(source ? file.source : file.uri)
   var uripath = url.parse(uri).pathname
 
+  // spdy push all the shit before actually sending the response
+  // main reason is the `yield this.push()` for redirects
+  if (this.spdy) {
+    flatten(tree).filter(function (x) {
+      return file !== x
+    }).forEach(function (file) {
+      this.push(file, search)
+    }, this)
+  }
+
   if (uripath !== path) {
     this.response.redirect(uripath + search)
     this.response.set('Cache-Control', cacheControl.semver)
@@ -82,12 +92,4 @@ module.exports = function* (next) {
       }
     }
   }
-
-  // spdy push all the shit
-  if (!this.spdy) return
-  flatten(tree).filter(function (x) {
-    return file !== x
-  }).forEach(function (file) {
-    this.push(file, search)
-  }, this)
 }
