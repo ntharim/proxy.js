@@ -9,12 +9,14 @@ var json = {
   version: require('../package.json').version,
   remotes: remotes.names.map(function (name) {
     var remote = remotes[name]
-    return {
+    var out = {
       name: remote.name,
       hostname: remote.hostname,
       aliases: remote.aliases,
       namespace: remote.namespace !== false,
     }
+    if (remote.shorthand) out.shorthand = remote.shorthand
+    return out
   })
 }
 
