@@ -17,7 +17,6 @@
     "semver": "^2.2.1",
     "lru-cache": "^2.5.0",
     "await-event": "1",
-    "path-to-regexp": "~0.1.0",
     "path-match": "^1.1.0",
     "mime-types": "1",
     "is-module": "1",

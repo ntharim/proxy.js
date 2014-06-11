@@ -10,13 +10,11 @@ var route = require('./route')
 var cacheControl = require('../config').cacheControl
 
 // should be able to combine this somehow...
-var matchEntryPoint = route(route.project + '/:version/')
-var matchAnyFile = route(route.project + '/:version/:file*')
+var match = route(route.project + '/:version/:file*')
 
 module.exports = function* (next) {
   var path = this.request.path
-  var params = matchEntryPoint(path)
-    || matchAnyFile(path)
+  var params = match(path)
   if (!params) return yield* next
 
   debug('path %s got params %s', path, inspect(params))
@@ -42,7 +40,7 @@ module.exports = function* (next) {
     params.user,
     params.project,
     params.version,
-    ((params.file || '') + (params.tail || '')) || 'index.html'
+    (params.file || '') || 'index.html'
   )
 
   debug('resolved to uri %s', uri)
