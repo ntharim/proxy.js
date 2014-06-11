@@ -7,5 +7,6 @@ module.exports = function* (next) {
   debug('spdy version: ' + this.req.spdyVersion)
   debug('request: ' + inspect(this.request.header))
   yield* next
+  debug('path: ' + this.request.path)
   debug('response: ' + inspect(this.response.header))
 }
