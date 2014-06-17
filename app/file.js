@@ -54,20 +54,24 @@ module.exports = function* (next) {
 
   // spdy push all the shit before actually sending the response
   // main reason is the `yield this.push()` for redirects
+  var pushes = []
   if (this.spdy) {
-    flatten(tree).filter(function (x) {
+    pushes = flatten(tree).filter(function (x) {
       return file !== x
-    }).forEach(function (file) {
-      this.push(file, search)
+    }).map(function (file) {
+      return this.push(file, search)
     }, this)
   }
 
   if (uripath !== path) {
+    // push this file with highest priority
+    if (this.spdy) yield pushes.concat(this.push(file, search, 0))
+    
     this.response.redirect(uripath + search)
     this.response.set('Cache-Control', cacheControl.semver)
-    // push this file with highest priority
-    if (this.spdy) yield this.push(file, search, 0)
   } else {
+    yield pushes
+
     this.response.set('Cache-Control', cacheControl.file)
     this.response.etag = file.hash
     this.response.lastModified = file.mtime
