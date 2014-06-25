@@ -14,6 +14,7 @@ var json = {
       hostname: remote.hostname,
       aliases: remote.aliases,
       namespace: remote.namespace !== false,
+      caseSensitive: remote.caseSensitive === true,
     }
     if (remote.shorthand) out.shorthand = remote.shorthand
     return out
