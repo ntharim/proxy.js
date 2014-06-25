@@ -1,7 +1,7 @@
 {
   "name": "normalize-proxy",
   "description": "Install, normalize, then SPDY Push repositories",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "author": {
     "name": "Jonathan Ong",
     "email": "me@jongleberry.com",
