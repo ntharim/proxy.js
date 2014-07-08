@@ -164,7 +164,7 @@ describe('normalize package.json', function () {
 
     it('should download even though normalization fails because of the crazy esprima dep', co(function* () {
       res = yield* request('/npm/-/jstransform/4.0.1/index.js')
-      res.statusCode.should.equal(404)
+      res.statusCode.should.equal(200)
       res.resume()
     }))
   })
