@@ -59,11 +59,14 @@
     "rimraf": "^2.2.0",
     "mocha": "^1.17",
     "should": "^3.0.0",
-    "jshint": "^2.5.0"
+    "jshint": "^2.5.0",
+    "istanbul-harmony": "~0.2.9"
   },
   "main": "app",
   "scripts": {
     "test": "NODE_ENV=test mocha --harmony-generators --require should --reporter spec --timeout 30s --bail test/index.js",
+    "test-cov": "NODE_ENV=test node --harmony-generators ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --require should --timeout 2m --bail test/index.js",
+    "test-travis": "NODE_ENV=test node --harmony-generators ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --require should --timeout 2m --bail test/index.js",
     "start": "nodemon --harmony-generators --watch lib/ --watch app/ app/server.js"
   }
 }

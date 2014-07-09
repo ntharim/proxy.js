@@ -1,0 +1,8 @@
+node_js: 
+- "0.11"
+after_script: npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls
+language: node_js
+script: npm run test-travis
+env: 
+  global: 
+    secure: UqTdGkeEwQ6GzR8W8j6FOtyU+qUlMcGOYTjg4n7MEVdLXoGHxqwJY/JOIqOcIV/6rnXh6zDpCy8kaSmulYnVWVbC+FmQzya82/o5cLbsm8u8Z7HT1paZJaDyI+siCEPumub5CvHsOGlDGdiSwmIFcJuIsCvXsC/q9eqDvCs4eYg=

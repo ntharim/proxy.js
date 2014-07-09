@@ -1,6 +1,11 @@
 
 # Normalize Proxy
 
+[![NPM Version](https://badge.fury.io/js/normalize-proxy.svg)](https://badge.fury.io/js/normalize-proxy)
+[![Build Status](https://travis-ci.org/normalize/proxy.js.svg?branch=master)](https://travis-ci.org/normalize/proxy.js)
+[![Coverage Status](https://img.shields.io/coveralls/normalize/proxy.js.svg)](https://coveralls.io/r/normalize/proxy.js)
+[![Gittip](https://img.shields.io/gittip/jonathanong.svg)](https://www.gittip.com/jonathanong/)
+
 Install a remote repository locally to be served via SPDY Push.
 
 ## Setting Up
