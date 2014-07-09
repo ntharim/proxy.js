@@ -3,3 +3,4 @@ node_modules
 polyfills-cache
 repositories
 coverage
+*.log

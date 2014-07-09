@@ -1,10 +1,19 @@
 
 # Normalize Proxy
 
-[![NPM Version](https://badge.fury.io/js/normalize-proxy.svg)](https://badge.fury.io/js/normalize-proxy)
-[![Build Status](https://travis-ci.org/normalize/proxy.js.svg?branch=master)](https://travis-ci.org/normalize/proxy.js)
-[![Coverage Status](https://img.shields.io/coveralls/normalize/proxy.js.svg)](https://coveralls.io/r/normalize/proxy.js)
-[![Gittip](https://img.shields.io/gittip/jonathanong.svg)](https://www.gittip.com/jonathanong/)
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![Gittip][gittip-image]][gittip-url]
+
+[npm-image]: https://img.shields.io/npm/v/normalize-proxy.svg?style=flat
+[npm-url]: https://npmjs.org/package/normalize-proxy
+[travis-image]: https://img.shields.io/travis/normalize/proxy.js.svg?style=flat
+[travis-url]: https://travis-ci.org/normalize/proxy.js
+[coveralls-image]: https://img.shields.io/coveralls/normalize/proxy.js.svg?style=flat
+[coveralls-url]: https://coveralls.io/r/normalize/proxy.js?branch=master
+[gittip-image]: https://img.shields.io/gittip/jonathanong.svg?style=flat
+[gittip-url]: https://www.gittip.com/jonathanong/
 
 Install a remote repository locally to be served via SPDY Push.
 
