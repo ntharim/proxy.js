@@ -1,7 +1,7 @@
 {
   "name": "normalize-proxy",
   "description": "Install, normalize, then SPDY Push repositories",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "author": {
     "name": "Jonathan Ong",
     "email": "me@jongleberry.com",
@@ -20,18 +20,15 @@
     "path-match": "^1.1.0",
     "mime-types": "1",
     "is-module": "1",
-
     "parse-github-repo-url": "1",
     "github-versions": "repo-utils/versions#2.0.0",
     "github-download": "repo-utils/download#2.0.0",
     "npm-versions": "2",
     "npm-download": "2",
-
     "normalize-walker": "0",
     "normalize-transforms": "0",
     "normalize-shorthands": "0",
     "normalize-dependencies": "0",
-
     "koa": ">= 0.5.5",
     "koa-cdn": "2",
     "koa-favicon": "^1.0.0",
@@ -39,7 +36,6 @@
     "koa-polyfills": "*",
     "koa-compressor": "^1.0.0",
     "koa-json-error": "^1.0.0",
-
     "regenerator": "0",
     "jade": "1",
     "marked": "0",
