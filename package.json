@@ -43,7 +43,9 @@
     "coffee-script": "1",
     "less": "1",
     "node-sass": "0",
-    "stylus": "0"
+    "stylus": "0",
+    "glob": "^4.0.3",
+    "thunkify": "^2.1.2"
   },
   "devDependencies": {
     "co-fs": "*",
