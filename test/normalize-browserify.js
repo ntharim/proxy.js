@@ -8,6 +8,25 @@ var server = require('../app/server')
 var store = require('../config').store
 
 describe('normalize package.json', function () {
+  describe('raynos/xtend@3.0.0', co(function* () {
+    var res
+
+    after(function () {
+      res.agent.close()
+    })
+
+    it('should download', co(function* () {
+      res = yield* request('/github/raynos/xtend/3.0.0/index.js')
+      res.statusCode.should.equal(200)
+      res.resume()
+    }))
+
+    it('should have normalized the main', co(function* () {
+      var log = yield fs.readFile(store + 'github/raynos/xtend/3.0.0/normalize-debug.log', 'utf8')
+      log.should.not.include('skipping js normalization')
+    }))
+  }))
+
   describe('thomaslein/dom.element@0.0.2', co(function* () {
     var res
 
@@ -145,7 +164,7 @@ describe('normalize package.json', function () {
 
     it('should download even though normalization fails because of the crazy esprima dep', co(function* () {
       res = yield* request('/npm/-/jstransform/4.0.1/index.js')
-      res.statusCode.should.equal(404)
+      res.statusCode.should.equal(200)
       res.resume()
     }))
   })
