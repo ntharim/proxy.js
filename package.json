@@ -22,7 +22,7 @@
     "is-module": "1",
     "parse-github-repo-url": "1",
     "github-versions": "2",
-    "github-download": "repo-utils/github-download#2.0.0",
+    "github-download": "git://github.com/repo-utils/github-download.git#2.0.0",
     "npm-versions": "2",
     "npm-download": "2",
     "normalize-walker": "0",
